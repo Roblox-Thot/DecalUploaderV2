@@ -165,3 +165,6 @@ cookie*
 /files
 /out
 /decals
+*.png
+*.jpg
+*.jpeg
