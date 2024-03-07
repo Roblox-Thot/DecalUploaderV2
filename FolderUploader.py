@@ -26,8 +26,8 @@ class ThreadShit:
         #img_id = Functions.get_image_id(asset.id)
         img_id = 'temp off'
         print(f'{filename},{asset.id},{img_id}\n')
-        with open('Out2.cvs', 'a') as a:
-            a.write(f'hello,{asset.id},{img_id}\n')
+        with open('Out2.csv', 'a') as a:
+            a.write(f'{filename},{asset.id},{img_id}\n')
         # outfile.write(f'hello,{asset.id},{img_id}\n')
 
     def start(files: list, ROBLOSECURITY:str):
