@@ -3,7 +3,6 @@ import requests, random, string, io
 from PIL import Image
 from time import sleep as sleepy
 import xmltodict
-import threading # :flushed: is it going to happen? spoiler-prob not in this file
 
 class DecalClass:
     def __init__(self, cookie:str) -> None:
@@ -47,28 +46,31 @@ class DecalClass:
         if isinstance(asset, Asset):
             return asset
         else:
-            while True:
+            for i in range(10):
                 status = asset.fetch_operation()
+                sleepy(0.5)
+                print(status)
                 if status:
                     return status
+            return self.upload(file,title,description)
                 
-    def get_image_id(image_id): #untested gpt moment :)
-        if image_id:
-            url = f"https://assetdelivery.roblox.com/v1/asset/?id={image_id}"
+    def get_image_id(decal_id):
+        if decal_id:
+            url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
             try:
                 response = requests.get(url)
                 if response.status_code == 200:
                     xml_data = xmltodict.parse(response.text)
-                    result_url = xml_data['roblox']['Item']['Properties']['Content']['url']['#text']
+                    result_url = xml_data['roblox']['Item']['Properties']['Content']['url']
                     result = result_url.split("=")[1]
                     return result
                 else:
-                    return "0"
+                    return "failed to get Imgid"
             except Exception as e:
                 print(e)
-                return "0"
+                return "failed to get Imgid"
         else:
-            return "0"
+            return "no decal id passed???"
 
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
@@ -120,7 +122,7 @@ if '__main__' in __name__:
 
             sleepy(1)
 
-            print(asset.id)
+            print(asset.id, DecalClass.get_image_id(asset.id))
     except KeyboardInterrupt:
         print('Exit detected, deleting api key now')
         pass
