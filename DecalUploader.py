@@ -4,17 +4,15 @@ from PIL import Image
 
 
 class DecalClass:
-    def __init__(self, cookie:str, file:bytes, title:str, description:str) -> None:
+    def __init__(self, cookie:str) -> None:
         self.cookie = cookie
-        self.file = file
-        self.title = title
-        self.description = description
-        self.API_key = None
         self.creator = None
+        self.gotKey = False
+        self.apiKey = self.__getApiKey()
         pass
 
-    def getApiKey(self):
-        if self.API_key: return self.API_key
+    def __getApiKey(self):
+        if self.gotKey: return self.apiKey
 
         payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
 
@@ -25,12 +23,13 @@ class DecalClass:
 
         response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
         print(response)
-        self.API_key = response['apikeySecret']
-        self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'], self.API_key)
-        return self.API_key
+        self.apiKey = response['apikeySecret']
+        self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'], self.apiKey)
+        self.gotKey = True
+        return self.apiKey
 
-    def upload(self):
-        asset = self.creator.upload_asset(self.file, AssetType.Decal, self.title, self.description)
+    def upload(self, file:bytes, title:str, description:str):
+        asset = self.creator.upload_asset(file, AssetType.Decal, title, description)
 
         if isinstance(asset, Asset):
             return asset
@@ -43,10 +42,11 @@ class DecalClass:
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
 
-    img = Image.open("811084396810731520.png")
+    img = Image.open("avatar_1385488.png")
     img = img.resize((500,500))
 
 
+    creator = DecalClass(ROBLOSECURITY)
 
     for a in range(0,60):
         rgba = img.convert("RGBA")
@@ -77,9 +77,7 @@ if '__main__' in __name__:
         buffer.name = "File.png"
         rgba.close()
 
-        creator = DecalClass(ROBLOSECURITY,buffer,"decal","decal")
-        creator.getApiKey()
-        asset = creator.upload()
+        asset = creator.upload(buffer, "decal", f'{a}')
 
         if isinstance(asset, Asset):
             status = asset
