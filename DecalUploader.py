@@ -1,17 +1,19 @@
-from rblxopencloud import User, AssetType, Asset
+from rblxopencloud import User, AssetType, Asset, exceptions
 import requests, random, string, io
 from PIL import Image
 from time import sleep as sleepy
+import xmltodict
+import threading # :flushed: is it going to happen? spoiler-prob not in this file
 
 class DecalClass:
     def __init__(self, cookie:str) -> None:
         self.cookie = cookie
         self.creator = None
         self.gotKey = False
-        self.apiKey = self.__getApiKey()
+        self.apiKey = self.__get_api_key__()
         pass
 
-    def __getApiKey(self):
+    def __get_api_key__(self):
         if self.gotKey: return self.apiKey
 
         payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
@@ -38,6 +40,24 @@ class DecalClass:
                 status = asset.fetch_operation()
                 if status:
                     return status
+                
+    def get_image_id(image_id):
+        if image_id:
+            url = f"https://assetdelivery.roblox.com/v1/asset/?id={image_id}"
+            try:
+                response = requests.get(url)
+                if response.status_code == 200:
+                    xml_data = xmltodict.parse(response.text)
+                    result_url = xml_data['roblox']['Item']['Properties']['Content']['url']['#text']
+                    result = result_url.split("=")[1]
+                    return result
+                else:
+                    return "0"
+            except Exception as e:
+                print(e)
+                return "0"
+        else:
+            return "0"
 
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
@@ -78,14 +98,16 @@ if '__main__' in __name__:
         rgba.close()
 
         print('uploading')
-        try:
-            asset = creator.upload(buffer, "decal", f'{a}')
-        except Exception as e:
-            if e == "You're being rate limited.":
-                sleepy(2)
-                print('rate limit')
+        while True:
+            try:
                 asset = creator.upload(buffer, "decal", f'{a}')
+                break
+            except Exception as e:
+                if e == exceptions.RateLimited:
+                    sleepy(2)
+                    print('rate limit')
 
+        sleepy(1)
         if isinstance(asset, Asset):
             status = asset
         else:
@@ -96,4 +118,3 @@ if '__main__' in __name__:
                     break
 
         print(status.id)
-        sleepy(1)
