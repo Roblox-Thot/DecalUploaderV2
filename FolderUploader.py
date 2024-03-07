@@ -6,7 +6,6 @@ from time import sleep as sleepy
 class ThreadShit:
     def upload(creator:DecalClass, filename:str, title:str, discription:str, outfile, barrier:threading.Barrier):
         barrier.wait()
-        print(filename)
         with open(f'decals/{filename}', "rb") as file:
             while True: # keep uploading till one works :)
                 try:
@@ -17,7 +16,9 @@ class ThreadShit:
                         sleepy(1)
                         print('rate limit')
 
-        img_id = Functions.get_image_id(asset.id)
+        #img_id = Functions.get_image_id(asset.id)
+        img_id = 'temp off'
+        print(f'{filename},{asset.id},{img_id}\n')
         outfile.write(f'{filename},{asset.id},{img_id}\n')
 
     def start(files: list, ROBLOSECURITY:str, outfile):
@@ -35,17 +36,31 @@ class ThreadShit:
             thread.join()
 
 class FolderFunctions:
-    def split_list(input_list, max_length=60):
+    def split_list_len(input_list, max_length=60):
         """
         Split a list into sublists with a maximum length.
         """
         return [input_list[i:i+max_length] for i in range(0, len(input_list), max_length)][:6]
+    
+    def split_list_sec(lst, num_sections=6):
+        avg_length = len(lst) // num_sections
+        remainder = len(lst) % num_sections
+        sections = []
+        start = 0
+        for i in range(num_sections):
+            length = avg_length + 1 if i < remainder else avg_length
+            end = start + length
+            sections.append(lst[start:end])
+            start = end
+        return sections
 
 if __name__ == '__main__':
+    files = os.listdir('decals')[:90]
+    print(len(files))
+    split_files = FolderFunctions.split_list_sec(files)
     ROBLOSECURITY = input("Cookie: ")
-    files = os.listdir('decals')
-    split_files = FolderFunctions.split_list(files)
-    outfile = open("Outa.csv",'w')
+
+    outfile = open("Outa.csv",'a')
     outfile.write('FileName,DecalId,ImageId\n')
 
     threads = []
