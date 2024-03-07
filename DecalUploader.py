@@ -9,8 +9,10 @@ class DecalClass:
     def __init__(self, cookie:str) -> None:
         self.cookie = cookie
         self.creator = None
+        self.keyId = None
         self.gotKey = False
-        self.apiKey = self.__get_api_key__()
+        self.apiKey = None
+        self.__get_api_key__()
         pass
 
     def __get_api_key__(self):
@@ -26,9 +28,18 @@ class DecalClass:
         response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
         print(response)
         self.apiKey = response['apikeySecret']
+        self.keyId = response['cloudAuthInfo']['id']
         self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'], self.apiKey)
         self.gotKey = True
-        return self.apiKey
+
+    def delete_key(self):
+        headers = {
+            "content-type": "application/json",
+            "X-Csrf-Token": requests.post('https://auth.roblox.com/v1/login', cookies={'.ROBLOSECURITY': self.cookie}).headers['x-csrf-token']
+        }
+        
+        requests.delete(f'https://apis.roblox.com/cloud-authentication/v1/apiKey/{self.keyId}', headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
+        
 
     def upload(self, file:bytes, title:str, description:str):
         asset = self.creator.upload_asset(file, AssetType.Decal, title, description)
@@ -110,3 +121,5 @@ if '__main__' in __name__:
         sleepy(1)
 
         print(asset.id)
+
+    creator.delete_key()
