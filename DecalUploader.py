@@ -1,8 +1,10 @@
 from rblxopencloud import User, AssetType, Asset, exceptions
 import requests, random, string, io
-from PIL import Image
 from time import sleep as sleepy
 import xmltodict
+
+try: from PIL import Image; IMAGE_EDIT = True;
+except: IMAGE_EDIT = False
 
 class DecalClass:
     def __init__(self, cookie:str) -> None:
@@ -15,6 +17,7 @@ class DecalClass:
         pass
 
     def __get_api_key__(self):
+        """Creates a API key and sets the self vers required"""
         if self.gotKey: return self.apiKey
 
         payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
@@ -25,13 +28,14 @@ class DecalClass:
         }
 
         response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
-        print(response)
+        #print(response)
         self.apiKey = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
         self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'], self.apiKey)
         self.gotKey = True
 
     def delete_key(self):
+        """Deletes the API key"""
         headers = {
             "content-type": "application/json",
             "X-Csrf-Token": requests.post('https://auth.roblox.com/v1/login', cookies={'.ROBLOSECURITY': self.cookie}).headers['x-csrf-token']
@@ -41,6 +45,16 @@ class DecalClass:
         
 
     def upload(self, file:bytes, title:str, description:str):
+        """Attempts to upload decal
+
+        Args:
+            file (bytes): file data
+            title (str): title of decal
+            description (str): discription of decal
+
+        Returns:
+            Asset: the asset of the decal
+        """
         asset = self.creator.upload_asset(file, AssetType.Decal, title, description)
 
         if isinstance(asset, Asset):
@@ -52,7 +66,7 @@ class DecalClass:
                 if status:
                     return status
             return self.upload(file,title,description)
-                
+
     def get_image_id(decal_id):
         if decal_id:
             url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
@@ -110,7 +124,7 @@ if '__main__' in __name__:
             rgba.close()
 
             print('uploading')
-            while True:
+            while True: # keep uploading till one works :)
                 try:
                     asset = creator.upload(buffer, "decal", f'{a}')
                     break
