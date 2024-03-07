@@ -1,3 +1,35 @@
+"""'''''''''''''''''''''''''''''''''''''''''''''''''''''
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+:::::::::::::::::::::::::c:::::::::::::::c:::cccc:::::::
+ccccccccccccccccccccccccccccccc:,'',,;:ccccccccccccccccc
+cccccccccccccccccccccccccccc:;'......';ccccccccccccccccc
+cccccccccccccccccccccccccc;'........'',:cccccccccccccccc
+ccccccclllccccccccccccccl:. ..........',:ccccccccccccccc
+cccccllccccllllcccccccccl:. . ......';;;clcccccllllcclcc
+clllllllllcc:;,'''',,,'',,.........':c;;llccclccllllcllc
+lllllllc:,'.........................,;.,cccclllcllllllcc
+llllll:'.........................''',::lxdlllllooddollll
+llll:'.............................'';cdkOxollloodxxdoll
+olc;.........  ...... ..............'',coddollccclolclol
+o:...........            ...........''';:clllc::cllcclll
+l,..........,,.           ...............,cllolccccllloo
+l,. ......;lol,.....      ...............,coooollloooool
+o:. ......,col,..........  ..............,::;;:clooooooo
+ol,. ......;lc...............................;cooooooooo
+ddo,. .....',...............................,loodddddddd
+oool;...,,................................':looooooooooo
+oooool;,,..... .........................;loddddddddddodd
+oodool:;;......................  ....,:odddddddxxxxxxxxx
+::::::ccl:. ........................cddddddddddddddddddd
+llllllloll;......  ................'okkkkkkkkkkkkkkkkkxx
+ccccc::::::::;;:,..  .....'',,,,,'.,oOOOOOO0000000000OO0
+::::::::::::::::::,'''',;:cclllollllodxxkkkkOOOOOOOO00XN
+::::::;;;;;;;;;;;::::ccccoooooooooollloooddoddxxkxxxxdkK
+ccccccc::;;;;;;;;:clooooooooodooooooddddddoodddxxdddolco
+cccccccccc::::;;:clooooddoooododdooodddddddddddddodolcc:
+                            Once
+'''''''''''''''''''''''''''''''''''''''''''''''''''''"""
+
 from DecalUploader import DecalClass, Functions
 from PIL import Image
 from rblxopencloud import exceptions
