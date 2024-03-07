@@ -92,4 +92,7 @@ if '__main__' in __name__:
         print('Exit detected, deleting api key now')
         pass
 
-    creator.delete_key()
+    try:
+        creator.delete_key()
+    except:
+        print('erm i think you were banned, kinda awkward')
