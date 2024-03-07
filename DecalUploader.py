@@ -43,7 +43,6 @@ class DecalClass:
         }
         
         requests.delete(f'https://apis.roblox.com/cloud-authentication/v1/apiKey/{self.keyId}', headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
-        
 
     def upload(self, file:bytes, title:str, description:str):
         """Attempts to upload decal
@@ -68,24 +67,6 @@ class DecalClass:
                     return status
             return self.upload(file,title,description)
 
-    def get_image_id(decal_id):
-        if decal_id:
-            url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
-            try:
-                response = requests.get(url)
-                if response.status_code == 200:
-                    xml_data = xmltodict.parse(response.text)
-                    result_url = xml_data['roblox']['Item']['Properties']['Content']['url']
-                    result = result_url.split("=")[1]
-                    return result
-                else:
-                    return "failed to get Imgid"
-            except Exception as e:
-                print(e)
-                return "failed to get Imgid"
-        else:
-            return "no decal id passed???"
-
 class Functions:
     def send_discord_message(webhook,name_value,decal_value,img_value):
         decal_value = int(decal_value)
@@ -109,6 +90,24 @@ class Functions:
         if 'Invalid Webhook Token' in status or 'Unknown Webhook' in status:
             global WEBHOOK
             WEBHOOK = '' # Webhook doesn't exist so don't keep sending stuff
+
+    def get_image_id(decal_id):
+        if decal_id:
+            url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
+            try:
+                response = requests.get(url)
+                if response.status_code == 200:
+                    xml_data = xmltodict.parse(response.text)
+                    result_url = xml_data['roblox']['Item']['Properties']['Content']['url']
+                    result = result_url.split("=")[1]
+                    return result
+                else:
+                    return "failed to get Imgid"
+            except Exception as e:
+                print(e)
+                return "failed to get Imgid"
+        else:
+            return "no decal id passed???"
 
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
@@ -137,13 +136,8 @@ if '__main__' in __name__:
                 random.randint(0,item[2]), item[3])
             rgba.putdata(newData)
 
-            # Create an in-memory bytes buffer
             buffer = io.BytesIO()
-            
-            # Save the image to the buffer in JPEG format
             rgba.save(buffer, format="PNG")
-
-            # Seek to the beginning of the buffer
             buffer.seek(0)
             buffer.name = "File.png"
             rgba.close()
@@ -160,7 +154,7 @@ if '__main__' in __name__:
 
             sleepy(1)
 
-            print(asset.id, DecalClass.get_image_id(asset.id))
+            print(asset.id, Functions.get_image_id(asset.id))
     except KeyboardInterrupt:
         print('Exit detected, deleting api key now')
         pass
