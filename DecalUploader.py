@@ -1,7 +1,7 @@
 from rblxopencloud import User, AssetType, Asset
 import requests, random, string, io
 from PIL import Image
-
+from time import sleep as sleepy
 
 class DecalClass:
     def __init__(self, cookie:str) -> None:
@@ -77,15 +77,23 @@ if '__main__' in __name__:
         buffer.name = "File.png"
         rgba.close()
 
-        asset = creator.upload(buffer, "decal", f'{a}')
+        print('uploading')
+        try:
+            asset = creator.upload(buffer, "decal", f'{a}')
+        except Exception as e:
+            if e == "You're being rate limited.":
+                sleepy(2)
+                print('rate limit')
+                asset = creator.upload(buffer, "decal", f'{a}')
 
         if isinstance(asset, Asset):
             status = asset
         else:
             while True:
                 status = asset.fetch_operation()
-                #print(status)
+                sleepy(1)
                 if status:
                     break
 
         print(status.id)
+        sleepy(1)
