@@ -39,8 +39,8 @@ from time import sleep as sleepy
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
 
-    img = Image.open("avatar_1385488.png")
-    img = img.resize((500,500))
+    img = Image.open(input('Image: ').replace('"', ''))
+    img = img.resize((420,420))
 
     creator = DecalClass(ROBLOSECURITY)
     try:
