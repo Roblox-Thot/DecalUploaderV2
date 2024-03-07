@@ -1,32 +1,41 @@
 from DecalUploader import DecalClass, Functions
-from rblxopencloud import exceptions
+from rblxopencloud import exceptions, Asset
 import os, threading
-from time import sleep as sleepy
 
 class ThreadShit:
-    def upload(creator:DecalClass, filename:str, title:str, discription:str, outfile, barrier:threading.Barrier):
-        barrier.wait()
+    def upload(creator:DecalClass, filename:str, title:str, discription:str, barrier:threading.Barrier):
         with open(f'decals/{filename}', "rb") as file:
+            barrier.wait()
             while True: # keep uploading till one works :)
                 try:
                     asset = creator.upload(file, title, discription)
                     break
                 except Exception as e:
                     if e == exceptions.RateLimited:
-                        sleepy(1)
                         print('rate limit')
+
+        if isinstance(asset, Asset):
+            print(asset)
+        else:
+            while True:
+                status = asset.fetch_operation()
+                if status:
+                    print(status)
+                    break
 
         #img_id = Functions.get_image_id(asset.id)
         img_id = 'temp off'
         print(f'{filename},{asset.id},{img_id}\n')
-        outfile.write(f'{filename},{asset.id},{img_id}\n')
+        with open('Out2.cvs', 'a') as a:
+            a.write(f'hello,{asset.id},{img_id}\n')
+        # outfile.write(f'hello,{asset.id},{img_id}\n')
 
-    def start(files: list, ROBLOSECURITY:str, outfile):
+    def start(files: list, ROBLOSECURITY:str):
         creator = DecalClass(ROBLOSECURITY)
         barrierh = threading.Barrier(len(files)+1)
         threads = []
         for i in files:
-            thread = threading.Thread(target=ThreadShit.upload, args=(creator,i,"RT","Tools",outfile, barrierh,))
+            thread = threading.Thread(target=ThreadShit.upload, args=(creator,i,"RT","Tools", barrierh,))
             thread.start()
             threads.append(thread)
         
@@ -60,17 +69,12 @@ if __name__ == '__main__':
     split_files = FolderFunctions.split_list_sec(files)
     ROBLOSECURITY = input("Cookie: ")
 
-    outfile = open("Outa.csv",'a')
-    outfile.write('FileName,DecalId,ImageId\n')
-
     threads = []
     for l in split_files:
-        thread = threading.Thread(target=ThreadShit.start, args=(l,ROBLOSECURITY,outfile,))
+        thread = threading.Thread(target=ThreadShit.start, args=(l,ROBLOSECURITY,))
         thread.start()
         threads.append(thread)
 
     for thread in threads:
         thread.join()
-
-    outfile.close()
 
