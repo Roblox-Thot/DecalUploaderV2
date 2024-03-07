@@ -28,5 +28,5 @@ def get_decals(userId, decals=None, pageNumber=1, lastLength=float('inf')):
     return decals
 
 print("Note: inv must be public! (13+)\n\n")
-userGamepasses = get_decals(input("UserId: "))
+userGamepasses = get_decals(int(input("UserId: ")))
 print(userGamepasses)
