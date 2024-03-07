@@ -168,3 +168,4 @@ cookie*
 *.png
 *.jpg
 *.jpeg
+* backup.py
