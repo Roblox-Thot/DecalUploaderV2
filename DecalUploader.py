@@ -2,6 +2,7 @@ from rblxopencloud import User, AssetType, Asset, exceptions
 import requests, random, string, io
 from time import sleep as sleepy
 import xmltodict
+from json import dumps
 
 try: from PIL import Image; IMAGE_EDIT = True;
 except: IMAGE_EDIT = False
@@ -84,6 +85,30 @@ class DecalClass:
                 return "failed to get Imgid"
         else:
             return "no decal id passed???"
+
+class Functions:
+    def send_discord_message(webhook,name_value,decal_value,img_value):
+        decal_value = int(decal_value)
+        img_value = int(img_value)
+        library_url = f"https://www.roblox.com/library/{img_value}/"
+
+        embed_data = {
+            "title": "Uploaded",
+            "url": library_url,
+            "fields": [
+                {"name": "File Name", "value": f"{name_value}"},
+                {"name": "Decal Id", "value": f"{decal_value}"},
+                {"name": "Image ID", "value": f"{img_value}"}
+            ],
+            "color": "16777215"
+        }
+
+        payload = {"embeds": [embed_data]}
+
+        status = requests.post(webhook, data=dumps(payload), headers={"Content-Type": "application/json"}).text
+        if 'Invalid Webhook Token' in status or 'Unknown Webhook' in status:
+            global WEBHOOK
+            WEBHOOK = '' # Webhook doesn't exist so don't keep sending stuff
 
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
