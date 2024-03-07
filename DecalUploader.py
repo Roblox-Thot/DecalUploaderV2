@@ -41,7 +41,7 @@ class DecalClass:
                 if status:
                     return status
                 
-    def get_image_id(image_id):
+    def get_image_id(image_id): #untested gpt moment :)
         if image_id:
             url = f"https://assetdelivery.roblox.com/v1/asset/?id={image_id}"
             try:
@@ -108,13 +108,5 @@ if '__main__' in __name__:
                     print('rate limit')
 
         sleepy(1)
-        if isinstance(asset, Asset):
-            status = asset
-        else:
-            while True:
-                status = asset.fetch_operation()
-                sleepy(1)
-                if status:
-                    break
 
-        print(status.id)
+        print(asset.id)
