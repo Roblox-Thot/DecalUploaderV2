@@ -59,7 +59,7 @@ class DecalClass:
         else:
             for i in range(10):
                 status = asset.fetch_operation()
-                sleepy(0.5)
+                sleepy(0.1)
                 if status:
                     return status
             return self.upload(file,title,description)
