@@ -1,9 +1,6 @@
-# TODO: make/finish this
-# TODO: find the max keys per sec lmao - its 6 ig
-
 from DecalUploader import DecalClass, Functions
 from rblxopencloud import exceptions
-import random, os, threading
+import os, threading
 from time import sleep as sleepy
 
 class ThreadShit:
