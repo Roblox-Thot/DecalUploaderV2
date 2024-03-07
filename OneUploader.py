@@ -84,7 +84,7 @@ if '__main__' in __name__:
                         sleepy(1)
                         print('rate limit')
             img_id = Functions.get_image_id(asset.id)
-            print(asset.id, img_id)
+            print(a+1,asset.id, img_id)
             
             with open('Out.csv','a') as out:
                 out.write(f'{a},{asset.id},{img_id}\n')
