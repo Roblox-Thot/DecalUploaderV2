@@ -57,7 +57,7 @@ class DecalClass:
         if isinstance(asset, Asset):
             return asset
         else:
-            for i in range(10):
+            for i in range(15):
                 status = asset.fetch_operation()
                 sleepy(0.1)
                 if status:

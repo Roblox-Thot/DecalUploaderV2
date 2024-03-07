@@ -6,6 +6,7 @@ WIP Rewrite of the Decal Uploader
 
 # Known bugs
 * Freezes on ban/warn requiring restart (idk how to fix)
+* Frozen for no reason (no fucking clue)
 * prob more tbh
 
 ## OneUploader.py
