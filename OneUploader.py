@@ -42,6 +42,12 @@ if '__main__' in __name__:
     img = Image.open(input('Image: ').replace('"', ''))
     img = img.resize((420,420))
 
+    clear = input('Clear Out.csv? (Y/N): ')
+    if 'y' in clear.lower():
+        with open('Out.csv','w') as clr:
+            clr.write('FileName,DecalId,ImageId\n') # CSV headers
+            # filename will just be the insance for this for obv reasons
+
     creator = DecalClass(ROBLOSECURITY)
     try:
         for a in range(0,60):
@@ -75,12 +81,13 @@ if '__main__' in __name__:
                     break
                 except Exception as e:
                     if e == exceptions.RateLimited:
-                        sleepy(2)
+                        sleepy(1)
                         print('rate limit')
-
-            sleepy(1)
-
-            print(asset.id, Functions.get_image_id(asset.id))
+            img_id = Functions.get_image_id(asset.id)
+            print(asset.id, img_id)
+            
+            with open('Out.csv','a') as out:
+                out.write(f'{a},{asset.id},{img_id}\n')
     except KeyboardInterrupt:
         print('Exit detected, deleting api key now')
         pass
