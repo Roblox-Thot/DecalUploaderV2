@@ -9,23 +9,19 @@ class DaThreads:
 
         barrier.wait()
 
-        # while True: # keep uploading till one works :)
-        try:
-            asset = creator.upload(buffer, "decal", 'decal')
-            # break
-        # except exceptions.RateLimited:
-        #     sleepy(1)
-        #     #print('rate limit')
-        except Exception as e:
-            print('erorr ext',e)
-            exit()
+        while True: # keep uploading till one works :)
+            try:
+                asset = creator.upload(buffer, "decal", 'decal')
+                break
+            except exceptions.RateLimited:
+                sleepy(2)
+                print('rate limit')
 
         if asset:
             img_id = Functions.get_image_id(asset.id)
             print(asset.id, img_id)
-            outfile = open('Out.csv','a')
-            outfile.write(f'#{threadnum},{asset.id},{img_id}\n')
-            outfile.close()
+            with open('Out.csv','a') as f:
+                f.write(f'#{threadnum},{asset.id},{img_id}\n')
 
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')

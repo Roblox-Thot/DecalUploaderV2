@@ -1,6 +1,6 @@
 from DecalUploader import DecalClass, Functions
-from rblxopencloud import exceptions, Asset
-import os, threading
+from rblxopencloud import exceptions
+import os, threading, time,re
 
 class ThreadShit:
     def upload(creator:DecalClass, filename:str, title:str, discription:str, barrier:threading.Barrier):
@@ -10,36 +10,31 @@ class ThreadShit:
                 try:
                     asset = creator.upload(file, title, discription)
                     break
-                except Exception as e:
-                    if e == exceptions.RateLimited:
-                        print('rate limit')
+                except exceptions.RateLimited:
+                    time.sleep(2)
+                    print('rate limit')
+                except:
+                    #SOMETHING FUCKING SUCKS IG
+                    time.sleep(2)
 
-        if isinstance(asset, Asset):
-            print(asset)
-        else:
-            while True:
-                status = asset.fetch_operation()
-                if status:
-                    print(status)
-                    break
-
-        #img_id = Functions.get_image_id(asset.id)
-        img_id = 'temp off'
-        print(f'{filename},{asset.id},{img_id}\n')
-        with open('Out2.csv', 'a') as a:
+        img_id = Functions.get_image_id(asset.id)
+        #img_id = 'temp off'
+        clean_filename = re.sub(r'[^\x00-\x7F]+','#',filename) # no emojis
+        clean_filename = clean_filename.replace(',',' ') # no comma
+        print(filename,asset.id,img_id)
+        with open('Out.csv', 'a') as a:
             a.write(f'{filename},{asset.id},{img_id}\n')
-        # outfile.write(f'hello,{asset.id},{img_id}\n')
 
     def start(files: list, ROBLOSECURITY:str):
         creator = DecalClass(ROBLOSECURITY)
-        barrierh = threading.Barrier(len(files)+1)
+        barrier = threading.Barrier(len(files)+1)
         threads = []
         for i in files:
-            thread = threading.Thread(target=ThreadShit.upload, args=(creator,i,"RT","Tools", barrierh,))
+            thread = threading.Thread(target=ThreadShit.upload, args=(creator,i,"Decal","Decal Tools", barrier,))
             thread.start()
             threads.append(thread)
         
-        barrierh.wait()
+        barrier.wait()
 
         for thread in threads:
             thread.join()
@@ -64,10 +59,18 @@ class FolderFunctions:
         return sections
 
 if __name__ == '__main__':
-    files = os.listdir('decals')[:90]
+    files = os.listdir('decals')[:100]
     print(len(files))
     split_files = FolderFunctions.split_list_sec(files)
+    print(len(split_files))
+    print(len(split_files[0]))
     ROBLOSECURITY = input("Cookie: ")
+    clear = input('Clear Out.csv? (Y/N): ')
+    if 'y' in clear.lower():
+        with open('Out.csv','w') as clr:
+            clr.write('FileName,DecalId,ImageId\n') # CSV headers
+            # filename will just be the insance for this for obv reasons
+
 
     threads = []
     for l in split_files:

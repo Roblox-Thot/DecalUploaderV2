@@ -61,7 +61,9 @@ class DecalClass:
                 if status:
                     return status
             except:
+                sleepy(0.5)
                 pass
+            sleepy(0.2)
 
 class Functions:
     def send_discord_message(webhook,name_value,decal_value,img_value):
