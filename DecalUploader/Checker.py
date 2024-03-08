@@ -57,7 +57,6 @@ class Checker:
         }
 
         payload = {'embeds': [embed_data]}
-        print(payload)
 
         requests.post(self.webhook, json=payload)
 

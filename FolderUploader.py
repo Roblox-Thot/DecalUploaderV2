@@ -3,6 +3,7 @@ from DecalUploader.Checker import Checker
 from rblxopencloud import exceptions
 import os, threading, time,re
 
+OUT:bool = True # Save decals/imgs to out.csv
 WEBHOOK:str = ''
 
 class ThreadShit:
@@ -25,8 +26,9 @@ class ThreadShit:
         clean_filename = re.sub(r'[^\x00-\x7F]+','#',filename) # no emojis
         clean_filename = clean_filename.replace(',',' ') # no comma
         print(filename,asset.id,img_id)
-        with open('Out.csv', 'a') as a:
-            a.write(f'{clean_filename},{asset.id},{img_id}\n')
+        if OUT:
+            with open('Out.csv', 'a') as a:
+                a.write(f'{clean_filename},{asset.id},{img_id}\n')
         Checker(asset.id, img_id, WEBHOOK)
 
     def start(files: list, ROBLOSECURITY:str):
@@ -69,12 +71,12 @@ if __name__ == '__main__':
     print('Thread to be made:',len(split_files))
     print('Files per thread(max ~60):',len(split_files[0]))
     ROBLOSECURITY = input("Cookie: ")
-    clear = input('Clear Out.csv? (Y/N): ')
-    if 'y' in clear.lower():
-        with open('Out.csv','w') as clr:
-            clr.write('FileName,DecalId,ImageId\n') # CSV headers
-            # filename will just be the insance for this for obv reasons
-
+    
+    if OUT:
+        clear = input('Clear Out.csv? (Y/N): ')
+        if 'y' in clear.lower():
+            with open('Out.csv','w') as clr:
+                clr.write('FileName,DecalId,ImageId\n') # CSV headers
 
     threads = []
     for l in split_files:

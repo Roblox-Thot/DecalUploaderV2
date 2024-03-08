@@ -5,6 +5,7 @@ from rblxopencloud import exceptions
 import random, io, threading
 from time import sleep as sleepy
 
+OUT:bool = True # Save decals/imgs to out.csv
 STATIC:bool = False # Static method
 WEBHOOK:str = ''
 
@@ -24,8 +25,9 @@ class DaThreads:
         if asset:
             img_id = Functions.get_image_id(asset.id)
             print(asset.id, img_id)
-            with open('Out.csv','a') as f:
-                f.write(f'#{threadnum},{asset.id},{img_id}\n')
+            if OUT:
+                with open('Out.csv','a') as f:
+                    f.write(f'#{threadnum},{asset.id},{img_id}\n')
             Checker(asset.id, img_id, WEBHOOK)
 
 if '__main__' in __name__:
@@ -35,11 +37,12 @@ if '__main__' in __name__:
     img = Image.open(file)
     img.thumbnail((400,400))
 
-    clear = input('Clear Out.csv? (Y/N): ')
-    if 'y' in clear.lower():
-        with open('Out.csv','w') as clr:
-            clr.write('FileName,DecalId,ImageId\n') # CSV headers
-            # filename will just be the insance for this for obv reasons
+    if OUT:
+        clear = input('Clear Out.csv? (Y/N): ')
+        if 'y' in clear.lower():
+            with open('Out.csv','w') as clr:
+                clr.write('FileName,DecalId,ImageId\n') # CSV headers
+                # filename will just be the insance for this for obv reasons
 
     CREATOR = DecalClass(ROBLOSECURITY)
     threads2make = range(60)
