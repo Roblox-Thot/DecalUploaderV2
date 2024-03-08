@@ -3,7 +3,7 @@ from time import sleep as wait
 
 class Checker:
     def __init__(self, decal_id:int, image_id:int, webhook:str=None) -> None:
-        if webhook.strip()=='': return ''
+        if webhook.strip()=='': return None
         self.webhook = webhook
         self.decal_id = decal_id
         self.image_id = image_id
