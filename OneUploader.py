@@ -1,4 +1,4 @@
-from DecalUploader import DecalClass, Functions
+from DecalUploader.Uploader import DecalClass, Functions
 from PIL import Image
 from rblxopencloud import exceptions
 import random, io, threading

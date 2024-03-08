@@ -1,4 +1,4 @@
-from DecalUploader import DecalClass, Functions
+from DecalUploader.Uploader import DecalClass, Functions
 from rblxopencloud import exceptions
 import os, threading, time,re
 
