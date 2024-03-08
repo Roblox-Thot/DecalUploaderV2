@@ -17,7 +17,7 @@ class DecalClass:
         """Creates a API key and sets the self vers required"""
         if self.apiKey: return self.apiKey
 
-        payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
+        payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits+string.punctuation, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
 
         headers = {
             "content-type": "application/json",
