@@ -9,8 +9,8 @@ Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 2. Multiple modes
 
 # Known bugs
-* Freezes on ban/warn requiring restart (idk how to fix)
-* Frozen for no reason (no fucking clue)
+* ~~Freezes on ban/warn requiring restart~~ Mostly fixed
+* ~~Frozen for no reason (no fucking clue)~~ Mostly fixed
 * prob more tbh
 
 ## OneUploader.py
