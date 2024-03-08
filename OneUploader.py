@@ -4,6 +4,8 @@ from rblxopencloud import exceptions
 import random, io, threading
 from time import sleep as sleepy
 
+STATIC:bool = False
+
 class DaThreads:
     def run(threadnum,creator,barrier,buffer) -> None:
 
@@ -11,7 +13,7 @@ class DaThreads:
 
         while True: # keep uploading till one works :)
             try:
-                asset = creator.upload(buffer, "decal", 'decal')
+                asset = creator.upload(buffer, "RT", 'DecalUploaderV2')
                 break
             except exceptions.RateLimited:
                 sleepy(2)
@@ -28,7 +30,7 @@ if '__main__' in __name__:
 
     file = input('Image: ').replace('"', '')
     img = Image.open(file)
-    img.thumbnail((420,420))
+    img.thumbnail((400,400))
 
     clear = input('Clear Out.csv? (Y/N): ')
     if 'y' in clear.lower():
@@ -51,14 +53,24 @@ if '__main__' in __name__:
         for item in datas:
             newData.append(item)
 
-        # Picks random pixel to replace
-        ran = random.randint(0, len(newData))
-        # Sets the color
-        newData[ran]=(
-            random.randint(0,item[0]),
-            random.randint(0,item[1]),
-            random.randint(0,item[2]), item[3])
-        rgba.putdata(newData)
+        if not STATIC:
+            # Picks random pixel to replace
+            ran = random.randint(0, len(newData))
+            # Sets the color
+            newData[ran]=(
+                random.randint(0,item[0]),
+                random.randint(0,item[1]),
+                random.randint(0,item[2]), item[3])
+            rgba.putdata(newData)
+        else:
+            intensity=20
+            newData=[
+                (item[0]+random.randint(-intensity, intensity),
+                item[1]+random.randint(-intensity, intensity),
+                item[2]+random.randint(-intensity, intensity),
+                item[3])for item in datas
+            ]
+            rgba.putdata(newData)
 
         buffer = io.BytesIO()
         rgba.save(buffer, format="PNG")
