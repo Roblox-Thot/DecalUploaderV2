@@ -5,7 +5,7 @@ import random, io, threading
 from time import sleep as sleepy
 
 class DaThreads:
-    def run(creator,barrier,buffer) -> None:
+    def run(threadnum,creator,barrier,buffer) -> None:
 
         barrier.wait()
 
@@ -24,7 +24,7 @@ class DaThreads:
             img_id = Functions.get_image_id(asset.id)
             print(asset.id, img_id)
             outfile = open('Out.csv','a')
-            outfile.write(f'{a},{asset.id},{img_id}\n')
+            outfile.write(f'#{threadnum},{asset.id},{img_id}\n')
             outfile.close()
 
 if '__main__' in __name__:
@@ -47,6 +47,7 @@ if '__main__' in __name__:
     threads = []
     print('creating images/threads')
     for a in threads2make:
+        #region making img hashes
         rgba = img.convert("RGBA")
         datas = rgba.getdata()
 
@@ -69,8 +70,9 @@ if '__main__' in __name__:
         buffer.seek(0)
         buffer.name = "File.png"
         rgba.close()
+        #endregion
 
-        thread = threading.Thread(target=DaThreads.run, args=(CREATOR,barrier,buffer,))
+        thread = threading.Thread(target=DaThreads.run, args=(a,CREATOR,barrier,buffer,))
         thread.start()
         threads.append(thread)
         
