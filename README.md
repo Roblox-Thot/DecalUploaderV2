@@ -21,3 +21,7 @@ Uploads the `decals` folder
 1. Have a folder called "decals"
 2. Put images in it
 3. Run it
+
+## Showcase
+https://github.com/Roblox-Thot/DecalUploaderV2/assets/67937010/0ea39f35-0c57-4b6b-b11e-c240483edcd2
+
