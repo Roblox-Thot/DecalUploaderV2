@@ -10,15 +10,20 @@ class Checker:
         self.image_url = None
         
         while True:
-            match self.get_asset_state():
-                case 'Completed':
-                    print(f'{decal_id} | {image_id} has been accepted')
-                    self.send_webhook()
-                    break
-                case 'Blocked':
-                    break
-                case _:
-                    pass
+            try:
+                match self.get_asset_state():
+                    case 'Completed':
+                        print(f'{decal_id} | {image_id} has been accepted')
+                        self.send_webhook()
+                        break
+                    case 'Blocked':
+                        print(f'{decal_id} | {image_id} has been denied')
+                        break
+                    case _ as status:
+                        if status != None: print(f'{decal_id} | {image_id} is {status}')
+                        pass
+            except: # just incase
+                pass
             wait(0.2) # eepy
 
     def get_asset_state(self) -> str:
