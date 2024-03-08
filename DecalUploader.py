@@ -53,15 +53,15 @@ class DecalClass:
         """
         asset = self.creator.upload_asset(file, AssetType.Decal, title, description)
 
-        if isinstance(asset, Asset):
-            return asset
-        else:
-            for i in range(15):
+        sleepy(5)
+
+        while True:
+            try:
                 status = asset.fetch_operation()
-                sleepy(0.1)
                 if status:
                     return status
-            return self.upload(file,title,description)
+            except:
+                pass
 
 class Functions:
     def send_discord_message(webhook,name_value,decal_value,img_value):
