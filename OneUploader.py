@@ -1,10 +1,12 @@
 from DecalUploader.Uploader import DecalClass, Functions
+from DecalUploader.Checker import Checker
 from PIL import Image
 from rblxopencloud import exceptions
 import random, io, threading
 from time import sleep as sleepy
 
-STATIC:bool = False
+STATIC:bool = False # Static method
+WEBHOOK:str = ''
 
 class DaThreads:
     def run(threadnum,creator,barrier,buffer) -> None:
@@ -24,6 +26,7 @@ class DaThreads:
             print(asset.id, img_id)
             with open('Out.csv','a') as f:
                 f.write(f'#{threadnum},{asset.id},{img_id}\n')
+            Checker(asset.id, img_id, WEBHOOK)
 
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')

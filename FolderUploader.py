@@ -1,6 +1,9 @@
 from DecalUploader.Uploader import DecalClass, Functions
+from DecalUploader.Checker import Checker
 from rblxopencloud import exceptions
 import os, threading, time,re
+
+WEBHOOK:str = ''
 
 class ThreadShit:
     def upload(creator:DecalClass, filename:str, title:str, discription:str, barrier:threading.Barrier):
@@ -24,6 +27,7 @@ class ThreadShit:
         print(filename,asset.id,img_id)
         with open('Out.csv', 'a') as a:
             a.write(f'{clean_filename},{asset.id},{img_id}\n')
+        Checker(asset.id, img_id, WEBHOOK)
 
     def start(files: list, ROBLOSECURITY:str):
         creator = DecalClass(ROBLOSECURITY)

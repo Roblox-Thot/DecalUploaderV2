@@ -7,6 +7,7 @@ Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 # Feetures
 1. Can upload around 60 decals at once
 2. Multiple modes
+3. Checker to Discord webhook (open the file and add the webhook)
 
 # Known bugs
 * ~~Freezes on ban/warn requiring restart~~ Mostly fixed
