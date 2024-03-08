@@ -23,7 +23,7 @@ class ThreadShit:
         clean_filename = clean_filename.replace(',',' ') # no comma
         print(filename,asset.id,img_id)
         with open('Out.csv', 'a') as a:
-            a.write(f'{filename},{asset.id},{img_id}\n')
+            a.write(f'{clean_filename},{asset.id},{img_id}\n')
 
     def start(files: list, ROBLOSECURITY:str):
         creator = DecalClass(ROBLOSECURITY)
