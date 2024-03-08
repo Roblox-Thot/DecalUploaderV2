@@ -59,11 +59,11 @@ class FolderFunctions:
         return sections
 
 if __name__ == '__main__':
-    files = os.listdir('decals')[:100]
-    print(len(files))
+    files = os.listdir('decals')[:100] # i've only ever gotten 100 max
+    print('Files in decals:',len(files))
     split_files = FolderFunctions.split_list_sec(files)
-    print(len(split_files))
-    print(len(split_files[0]))
+    print('Thread to be made:',len(split_files))
+    print('Files per thread(max ~60):',len(split_files[0]))
     ROBLOSECURITY = input("Cookie: ")
     clear = input('Clear Out.csv? (Y/N): ')
     if 'y' in clear.lower():
