@@ -4,6 +4,10 @@
 # DecalUploaderV2
 Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 
+# Feetures
+1. Can upload around 60 decals at once
+2. Multiple modes
+
 # Known bugs
 * Freezes on ban/warn requiring restart (idk how to fix)
 * Frozen for no reason (no fucking clue)
@@ -12,7 +16,8 @@ Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 ## OneUploader.py
 Uploads one file multiple times
 
-## Folder uploader
+## FolderUploader.py
+Uploads the `decals` folder
 1. Have a folder called "decals"
 2. Put images in it
 3. Run it
