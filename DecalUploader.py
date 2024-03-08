@@ -9,14 +9,13 @@ class DecalClass:
         self.cookie = cookie
         self.creator = None
         self.keyId = None
-        self.gotKey = False
         self.apiKey = None
         self.__get_api_key__()
         pass
 
     def __get_api_key__(self):
         """Creates a API key and sets the self vers required"""
-        if self.gotKey: return self.apiKey
+        if self.apiKey: return self.apiKey
 
         payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
 
@@ -29,8 +28,8 @@ class DecalClass:
         #print(response)
         self.apiKey = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
-        self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'], self.apiKey)
-        self.gotKey = True
+        self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'],
+                                self.apiKey)
 
     def delete_key(self):
         """Deletes the API key"""
