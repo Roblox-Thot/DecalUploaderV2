@@ -2,7 +2,7 @@ from DecalUploader.Uploader import DecalClass, Functions
 from DecalUploader.Checker import Checker
 from PIL import Image
 from rblxopencloud import exceptions
-import random, io, threading
+import random, io, threading, requests
 from time import sleep as sleepy
 
 OUT:bool = True # Save decals/imgs to out.csv
@@ -33,8 +33,13 @@ class DaThreads:
 if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
 
-    file = input('Image: ').replace('"', '')
-    img = Image.open(file)
+    image_name = input('Image: ').replace('"', '')
+    if image_name.lower().startswith('http'):
+        img_data = requests.get(image_name)
+        if img_data.status_code != 200: print('failed to get img'); exit()
+        img = Image.open(io.BytesIO(img_data.content))
+    else:
+        img = Image.open(image_name)
     img.thumbnail((400,400))
 
     if OUT:
