@@ -1,10 +1,7 @@
 from DecalUploader.Uploader import DecalClass, Functions
 from DecalUploader.Checker import Checker
 from rblxopencloud import exceptions
-import os, threading, time,re
-
-OUT:bool = True # Save decals/imgs to out.csv
-WEBHOOK:str = ''
+import os, threading, time, re, json
 
 class ThreadShit:
     def upload(creator:DecalClass, filename:str, title:str, description:str, barrier:threading.Barrier):
@@ -65,6 +62,10 @@ class FolderFunctions:
         return sections
 
 if __name__ == '__main__':
+    CONFIG = json.load(open('config.json'))
+    OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
+    WEBHOOK:str = CONFIG['webhook']
+
     files = os.listdir('decals')[:100] # i've only ever gotten 100 max
     print('Files in decals:',len(files))
     split_files = FolderFunctions.split_list_sec(files)

@@ -1,0 +1,11 @@
+{
+    "save decals": true, 
+    "static": false, 
+    "webhook": "",
+    
+    "__comments__":[
+        "'save decals' saves decals to Out.csv",
+        "'static' is used in the OneUploader to add static to images",
+        "'webhook' is a Discord webhook to send approved decals to if set"
+    ]
+}

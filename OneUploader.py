@@ -2,12 +2,8 @@ from DecalUploader.Uploader import DecalClass, Functions
 from DecalUploader.Checker import Checker
 from PIL import Image
 from rblxopencloud import exceptions
-import random, io, threading, requests
 from time import sleep as sleepy
-
-OUT:bool = True # Save decals/imgs to out.csv
-STATIC:bool = False # Static method
-WEBHOOK:str = ''
+import random, io, threading, requests, json
 
 class DaThreads:
     def run(thread_num,creator,barrier,buffer) -> None:
@@ -31,6 +27,11 @@ class DaThreads:
             Checker(asset.id, img_id, WEBHOOK)
 
 if '__main__' in __name__:
+    CONFIG = json.load(open('config.json'))
+    OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
+    STATIC:bool = CONFIG['static'] # Static method
+    WEBHOOK:str = CONFIG['webhook']
+
     ROBLOSECURITY = input('Cookie: ')
 
     image_name = input('Image: ').replace('"', '')
