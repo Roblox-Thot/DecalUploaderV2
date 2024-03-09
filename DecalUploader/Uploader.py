@@ -46,7 +46,7 @@ class DecalClass:
         Args:
             file (bytes): file data
             title (str): title of decal
-            description (str): discription of decal
+            description (str): description of decal
 
         Returns:
             Asset: the asset of the decal
@@ -108,4 +108,4 @@ class Functions:
             return "no decal id passed???"
 
 if __name__ == '__main__':
-    input('ok so like uhhhhh um so i want to tell you uhhhh that uhhh wait a sec uhh ummm like so um i just wanted to tell you that uhhhhhh so um like what um uhhhhhhhhhhhhhhhh uhhhh oh um so i just hmmmm uhhh ummmm like ummmm i\'ve been uhhhhhhhhhhhhhhhhhhhhhh so like it\'s that um uhh oh the thing is that ummmmmm ahhhhhh it\'s because uhhhhhhhhhh fuckin ummmmmm can I like uhhhhhhhh just um wait just one second uhhhhh ok so like i wanted to uhhhhhhh so the thing is that what i wanted to tell you is uhhhhhhhhh i just ummmmm so uhhhhhhhhh like ummmm hmmmmm uhhhh i need to uhhhh what i wanted to tell you is ahhh like uh so um it\'s that ummmm i just had a uhhhhhhhhhhh well it\'s that ummmmmmmm hmmmm ah yeah it\'s that i uhhhhh hmmmm well i mean that uhhhhhhhhhhhhhhhhhhhhhh it\'s just that i wanted to tell you that uhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh you don\' run this file')
+    input('you don\' run this file')

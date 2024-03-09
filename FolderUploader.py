@@ -7,12 +7,12 @@ OUT:bool = True # Save decals/imgs to out.csv
 WEBHOOK:str = ''
 
 class ThreadShit:
-    def upload(creator:DecalClass, filename:str, title:str, discription:str, barrier:threading.Barrier):
+    def upload(creator:DecalClass, filename:str, title:str, description:str, barrier:threading.Barrier):
         with open(f'decals/{filename}', "rb") as file:
             barrier.wait()
             while True: # keep uploading till one works :)
                 try:
-                    asset = creator.upload(file, title, discription)
+                    asset = creator.upload(file, title, description)
                     break
                 except exceptions.RateLimited:
                     time.sleep(2)

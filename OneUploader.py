@@ -10,7 +10,7 @@ STATIC:bool = False # Static method
 WEBHOOK:str = ''
 
 class DaThreads:
-    def run(threadnum,creator,barrier,buffer) -> None:
+    def run(thread_num,creator,barrier,buffer) -> None:
 
         barrier.wait()
 
@@ -27,7 +27,7 @@ class DaThreads:
             print(asset.id, img_id)
             if OUT:
                 with open('Out.csv','a') as f:
-                    f.write(f'#{threadnum},{asset.id},{img_id}\n')
+                    f.write(f'#{thread_num},{asset.id},{img_id}\n')
             Checker(asset.id, img_id, WEBHOOK)
 
 if '__main__' in __name__:
@@ -42,7 +42,7 @@ if '__main__' in __name__:
         if 'y' in clear.lower():
             with open('Out.csv','w') as clr:
                 clr.write('FileName,DecalId,ImageId\n') # CSV headers
-                # filename will just be the insance for this for obv reasons
+                # filename will just be the instance for this for obv reasons
 
     CREATOR = DecalClass(ROBLOSECURITY)
     threads2make = range(60)
@@ -52,11 +52,11 @@ if '__main__' in __name__:
     for a in threads2make:
         #region making img hashes
         rgba = img.convert("RGBA")
-        datas = rgba.getdata()
+        data = rgba.getdata()
 
         newData = []
 
-        for item in datas:
+        for item in data:
             newData.append(item)
 
         if not STATIC:
@@ -74,7 +74,7 @@ if '__main__' in __name__:
                 (item[0]+random.randint(-intensity, intensity),
                 item[1]+random.randint(-intensity, intensity),
                 item[2]+random.randint(-intensity, intensity),
-                item[3])for item in datas
+                item[3])for item in data
             ]
             rgba.putdata(newData)
 
