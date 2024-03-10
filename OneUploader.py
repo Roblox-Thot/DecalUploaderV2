@@ -5,6 +5,13 @@ from rblxopencloud import exceptions
 from time import sleep as sleepy
 import random, io, threading, requests, json
 
+CONFIG = json.load(open('config.json'))
+OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
+STATIC:bool = CONFIG['static'] # Static method
+WEBHOOK:str = CONFIG['webhook']
+TITLE:str = CONFIG['title']
+DESCRIPTION:str = CONFIG['description']
+
 class DaThreads:
     def run(thread_num,creator,barrier,buffer) -> None:
 
@@ -12,7 +19,7 @@ class DaThreads:
 
         while True: # keep uploading till one works :)
             try:
-                asset = creator.upload(buffer, "RT", 'DecalUploaderV2')
+                asset = creator.upload(buffer, TITLE, DESCRIPTION)
                 break
             except exceptions.RateLimited:
                 sleepy(2)
@@ -27,11 +34,6 @@ class DaThreads:
             Checker(asset.id, img_id, WEBHOOK)
 
 if '__main__' in __name__:
-    CONFIG = json.load(open('config.json'))
-    OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
-    STATIC:bool = CONFIG['static'] # Static method
-    WEBHOOK:str = CONFIG['webhook']
-
     ROBLOSECURITY = input('Cookie: ')
 
     image_name = input('Image: ').replace('"', '')

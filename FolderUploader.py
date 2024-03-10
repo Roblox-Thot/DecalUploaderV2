@@ -3,13 +3,19 @@ from DecalUploader.Checker import Checker
 from rblxopencloud import exceptions
 import os, threading, time, re, json
 
+CONFIG = json.load(open('config.json'))
+OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
+WEBHOOK:str = CONFIG['webhook']
+TITLE:str = CONFIG['title']
+DESCRIPTION:str = CONFIG['description']
+
 class ThreadShit:
-    def upload(creator:DecalClass, filename:str, title:str, description:str, barrier:threading.Barrier):
+    def upload(creator:DecalClass, filename:str, barrier:threading.Barrier):
         with open(f'decals/{filename}', "rb") as file:
             barrier.wait()
             while True: # keep uploading till one works :)
                 try:
-                    asset = creator.upload(file, title, description)
+                    asset = creator.upload(file, TITLE, DESCRIPTION)
                     break
                 except exceptions.RateLimited:
                     time.sleep(2)
@@ -33,7 +39,7 @@ class ThreadShit:
         barrier = threading.Barrier(len(files)+1)
         threads = []
         for i in files:
-            thread = threading.Thread(target=ThreadShit.upload, args=(creator,i,"Decal","Decal Tools", barrier,))
+            thread = threading.Thread(target=ThreadShit.upload, args=(creator,i,barrier,))
             thread.start()
             threads.append(thread)
         
@@ -62,10 +68,6 @@ class FolderFunctions:
         return sections
 
 if __name__ == '__main__':
-    CONFIG = json.load(open('config.json'))
-    OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
-    WEBHOOK:str = CONFIG['webhook']
-
     files = os.listdir('decals')[:100] # i've only ever gotten 100 max
     print('Files in decals:',len(files))
     split_files = FolderFunctions.split_list_sec(files)
