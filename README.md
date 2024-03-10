@@ -4,7 +4,11 @@
 # DecalUploaderV2
 Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 
-Make sure to install [rblx-open-cloud](https://pypi.org/project/rblx-open-cloud/) and edit config.json with your wanted data
+Make sure to install the requirements and edit config.json with your wanted data
+
+```cmd
+pip install -r requirements.txt
+```
 
 # Feetures
 1. Can upload around 60 decals at once
