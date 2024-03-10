@@ -30,3 +30,4 @@ if '__main__' in __name__:
     print('Note: inv must be public! (13+)\n\n')
     user_decals = get_decals(int(input('UserId: ')))
     print(user_decals)
+    input("Press enter to exit.")

@@ -8,8 +8,9 @@ Make sure to install [rblx-open-cloud](https://pypi.org/project/rblx-open-cloud/
 
 # Feetures
 1. Can upload around 60 decals at once
-2. Multiple modes
-3. Checker to Discord webhook (open the file and add the webhook)
+2. Multiple "modes"
+3. Checker to Discord webhook
+4. Config that works for both "modes"
 
 # Known bugs
 * ~~Freezes on ban/warn requiring restart~~ Mostly fixed
@@ -24,6 +25,8 @@ Uploads the `decals` folder
 1. Have a folder called "decals"
 2. Put images in it
 3. Run it
+
+##
 
 ## Snowcase
 https://github.com/Roblox-Thot/DecalUploaderV2/assets/67937010/0ea39f35-0c57-4b6b-b11e-c240483edcd2
