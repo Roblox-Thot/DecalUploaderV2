@@ -4,7 +4,7 @@
 # DecalUploaderV2
 Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 
-Make sure to install [rblx-open-cloud](https://pypi.org/project/rblx-open-cloud/)
+Make sure to install [rblx-open-cloud](https://pypi.org/project/rblx-open-cloud/) and edit config.json with your wanted data
 
 # Feetures
 1. Can upload around 60 decals at once
@@ -25,6 +25,6 @@ Uploads the `decals` folder
 2. Put images in it
 3. Run it
 
-## Showcase
+## Snowcase
 https://github.com/Roblox-Thot/DecalUploaderV2/assets/67937010/0ea39f35-0c57-4b6b-b11e-c240483edcd2
 
