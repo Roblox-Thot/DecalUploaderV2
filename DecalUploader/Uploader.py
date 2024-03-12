@@ -64,27 +64,6 @@ class DecalClass:
             sleepy(0.2)
 
 class Functions:
-    def send_discord_message(webhook:str, name_value:str, decal_value, img_value):
-        # sourcery skip: instance-method-first-arg-name
-        decal_value = int(decal_value)
-        img_value = int(img_value)
-        library_url = f"https://www.roblox.com/library/{img_value}/"
-
-        embed_data = {
-            "title": "Uploaded",
-            "url": library_url,
-            "fields": [
-                {"name": "File Name", "value": f"{name_value}"},
-                {"name": "Decal Id", "value": f"{decal_value}"},
-                {"name": "Image ID", "value": f"{img_value}"}
-            ],
-            "color": "16777215"
-        }
-
-        payload = {"embeds": [embed_data]}
-
-        return requests.post(webhook, data=dumps(payload), headers={"Content-Type": "application/json"}).text
-
     def get_image_id(decal_id):
         # sourcery skip: instance-method-first-arg-name
         if not decal_id:
