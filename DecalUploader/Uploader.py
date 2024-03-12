@@ -83,10 +83,7 @@ class Functions:
 
         payload = {"embeds": [embed_data]}
 
-        status = requests.post(webhook, data=dumps(payload), headers={"Content-Type": "application/json"}).text
-        if 'Invalid Webhook Token' in status or 'Unknown Webhook' in status:
-            global WEBHOOK
-            WEBHOOK = '' # Webhook doesn't exist so don't keep sending stuff
+        return requests.post(webhook, data=dumps(payload), headers={"Content-Type": "application/json"}).text
 
     def get_image_id(decal_id):
         # sourcery skip: instance-method-first-arg-name
