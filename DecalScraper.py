@@ -9,19 +9,17 @@ def get_decals(userId:int, decals:list = None, pageNumber:int = 1, lastLength:in
     try:
         response = get(request_url)
         response.raise_for_status()
-        result2 = response.json()
-
-        if result2:
+        if result2 := response.json():
             for decal in result2['Data']['Items']:
                 if decal['Creator']['Id'] == userId and decal['Item']['AssetId'] not in decals:
-                    id = decal['Item']['AssetId']
+                    asset_id = decal['Item']['AssetId']
                     decals.append(id)
 
             if len(response.text) != lastLength:
                 lastLength = len(response.text)
                 pageNumber += 1
                 get_decals(userId, decals, pageNumber, lastLength)
-    except:
+    except Exception:
         get_decals(userId, decals, pageNumber, lastLength)
 
     return decals

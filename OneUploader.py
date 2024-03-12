@@ -14,6 +14,7 @@ DESCRIPTION:str = CONFIG['description']
 
 class DaThreads:
     def run(thread_num,creator,barrier,buffer) -> None:
+        # sourcery skip: instance-method-first-arg-name
 
         barrier.wait()
 
@@ -75,7 +76,7 @@ if '__main__' in __name__:
                 random.randint(0,item[0]),
                 random.randint(0,item[1]),
                 random.randint(0,item[2]), item[3])
-            rgba.putdata(newData)
+
         else:
             intensity=20
             newData=[
@@ -84,7 +85,8 @@ if '__main__' in __name__:
                 item[2]+random.randint(-intensity, intensity),
                 item[3])for item in data
             ]
-            rgba.putdata(newData)
+
+        rgba.putdata(newData)
 
         buffer = io.BytesIO()
         rgba.save(buffer, format="PNG")
@@ -107,5 +109,5 @@ if '__main__' in __name__:
     try:
         CREATOR.delete_key()
         print('API key has now ben deleted')
-    except:
+    except Exception:
         print('erm i think you were banned, kinda awkward')

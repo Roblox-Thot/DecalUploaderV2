@@ -5,17 +5,17 @@ import xmltodict
 from json import dumps
 
 class DecalClass:
-    def __init__(self, cookie:str) -> None:
+    def __init__(self, cookie:str, type:AssetType = AssetType.Decal) -> None:
         self.cookie = cookie
         self.creator = None
         self.keyId = None
-        self.apiKey = None
+        self.api_key = None
+        self.asset_type = None
         self.__get_api_key__()
-        pass
 
     def __get_api_key__(self):
         """Creates a API key and sets the self vers required"""
-        if self.apiKey: return self.apiKey
+        if self.api_key: return self.api_key
 
         payload = {"cloudAuthUserConfiguredProperties": {"name": ''.join(random.choices(string.digits, k=2)),"description": "","isEnabled": True,"allowedCidrs": ["0.0.0.0/0"],"scopes": [{"scopeType": "asset","targetParts": ["U"],"operations": ["read", "write"]}]}}
 
@@ -26,10 +26,10 @@ class DecalClass:
 
         response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
         #print(response)
-        self.apiKey = response['apikeySecret']
+        self.api_key = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
         self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'],
-                                self.apiKey)
+                                self.api_key)
 
     def delete_key(self):
         """Deletes the API key"""
@@ -51,22 +51,21 @@ class DecalClass:
         Returns:
             Asset: the asset of the decal
         """
-        asset = self.creator.upload_asset(file, AssetType.Decal, title, description)
+        asset = self.creator.upload_asset(file, self.asset_type, title, description)
 
         sleepy(5)
 
         while True:
             try:
-                status = asset.fetch_operation()
-                if status:
+                if status:= asset.fetch_operation():
                     return status
-            except:
+            except Exception:
                 sleepy(0.5)
-                pass
             sleepy(0.2)
 
 class Functions:
     def send_discord_message(webhook,name_value,decal_value,img_value):
+        # sourcery skip: instance-method-first-arg-name
         decal_value = int(decal_value)
         img_value = int(img_value)
         library_url = f"https://www.roblox.com/library/{img_value}/"
@@ -90,6 +89,7 @@ class Functions:
             WEBHOOK = '' # Webhook doesn't exist so don't keep sending stuff
 
     def get_image_id(decal_id):
+        # sourcery skip: inline-immediately-returned-variable, instance-method-first-arg-name, last-if-guard, remove-unnecessary-else, swap-if-else-branches
         if decal_id:
             url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
             try:

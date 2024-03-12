@@ -3,12 +3,13 @@ from time import sleep as wait
 
 class Checker:
     def __init__(self, decal_id:int, image_id:int, webhook:str=None) -> None:
-        if webhook.strip()=='': return None
+        # sourcery skip: use-contextlib-suppress
+        if not webhook.strip(): return None
         self.webhook = webhook
         self.decal_id = decal_id
         self.image_id = image_id
         self.image_url = None
-        
+
         while True:
             try:
                 match self.get_asset_state():
@@ -21,8 +22,7 @@ class Checker:
                         break
                     case _ as status:
                         if status != None: print(f'{decal_id} | {image_id} is {status}')
-                        pass
-            except: # just incase
+            except Exception: # just incase
                 pass
             wait(0.2) # eepy
 
@@ -51,7 +51,7 @@ class Checker:
             img_url (str): decal image
         """        
         embed_data = {
-            'title': f'Decal accepted',
+            'title': 'Decal accepted',
             'url': f'https://www.roblox.com/library/{self.decal_id}',
             'image': {'url': self.image_url},
             'fields': [
