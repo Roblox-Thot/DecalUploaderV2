@@ -10,7 +10,8 @@ TITLE:str = CONFIG['title']
 DESCRIPTION:str = CONFIG['description']
 
 class ThreadShit:
-    def upload(self, creator:DecalClass, filename:str, barrier:threading.Barrier):
+    def upload(creator:DecalClass, filename:str, barrier:threading.Barrier):
+        # sourcery skip: instance-method-first-arg-name
         with open(f'decals/{filename}', "rb") as file:
             barrier.wait()
             while True: # keep uploading till one works :)
@@ -34,7 +35,8 @@ class ThreadShit:
                 a.write(f'{clean_filename},{asset.id},{img_id}\n')
         Checker(asset.id, img_id, WEBHOOK)
 
-    def start(self, files: list, ROBLOSECURITY:str):
+    def start(files: list, ROBLOSECURITY:str):
+        # sourcery skip: instance-method-first-arg-name
         creator = DecalClass(ROBLOSECURITY)
         barrier = threading.Barrier(len(files)+1)
         threads = []

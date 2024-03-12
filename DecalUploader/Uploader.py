@@ -64,7 +64,7 @@ class DecalClass:
             sleepy(0.2)
 
 class Functions:
-    def send_discord_message(webhook,name_value,decal_value,img_value):
+    def send_discord_message(webhook:str, name_value:str, decal_value, img_value):
         # sourcery skip: instance-method-first-arg-name
         decal_value = int(decal_value)
         img_value = int(img_value)
@@ -89,23 +89,20 @@ class Functions:
             WEBHOOK = '' # Webhook doesn't exist so don't keep sending stuff
 
     def get_image_id(decal_id):
-        # sourcery skip: inline-immediately-returned-variable, instance-method-first-arg-name, last-if-guard, remove-unnecessary-else, swap-if-else-branches
-        if decal_id:
-            url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
-            try:
-                response = requests.get(url)
-                if response.status_code == 200:
-                    xml_data = xmltodict.parse(response.text)
-                    result_url = xml_data['roblox']['Item']['Properties']['Content']['url']
-                    result = result_url.split("=")[1]
-                    return result
-                else:
-                    return "failed to get Imgid"
-            except Exception as e:
-                print(e)
-                return "failed to get Imgid"
-        else:
+        # sourcery skip: instance-method-first-arg-name
+        if not decal_id:
             return "no decal id passed???"
+        url = f"https://assetdelivery.roblox.com/v1/asset/?id={decal_id}"
+        try:
+            response = requests.get(url)
+            if response.status_code != 200:
+                return "failed to get Imgid"
+            xml_data = xmltodict.parse(response.text)
+            result_url = xml_data['roblox']['Item']['Properties']['Content']['url']
+            return result_url.split("=")[1]
+        except Exception as e:
+            print(e)
+            return "failed to get Imgid"
 
 if __name__ == '__main__':
     input('you don\' run this file')
