@@ -1,4 +1,4 @@
-from rblxopencloud import User, AssetType, Asset
+from rblxopencloud import User, AssetType, Asset, exceptions
 import requests, random, string
 from time import sleep as sleepy
 import xmltodict
@@ -58,6 +58,8 @@ class DecalClass:
             try:
                 if status:= asset.fetch_operation():
                     return status
+            except exceptions.PermissionDenied:
+                return None
             except Exception:
                 sleepy(0.5)
             sleepy(0.2)

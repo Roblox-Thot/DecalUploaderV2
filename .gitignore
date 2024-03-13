@@ -190,3 +190,4 @@ Slipper.exe
 *.bat
 checker.py
 /.vscode
+config.json

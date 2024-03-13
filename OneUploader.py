@@ -7,10 +7,14 @@ import random, io, threading, requests, json
 
 CONFIG:json = json.load(open('config.json'))
 OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
-STATIC:bool = CONFIG['static'] # Static method
 WEBHOOK:str = CONFIG['webhook']
 TITLE:str = CONFIG['title']
 DESCRIPTION:str = CONFIG['description']
+
+# Image configs
+STATIC:bool = CONFIG['static'] # Static method
+# WIDTH:int = CONFIG['width']
+# LENGTH:int = CONFIG['length']
 
 class DaThreads:
     def run(thread_num:int, creator:DecalClass, barrier:threading.Barrier, buffer:io.BytesIO) -> None:
@@ -28,9 +32,9 @@ class DaThreads:
             except Exception:
                 sleepy(2)
 
-        if asset:
+        if asset is not None:
             img_id = Functions.get_image_id(asset.id)
-            print(asset.id, img_id)
+            print(f'{asset.id=} {img_id=}')
             if OUT:
                 with open('Out.csv','a') as f:
                     f.write(f'#{thread_num},{asset.id},{img_id}\n')
@@ -112,4 +116,4 @@ if '__main__' in __name__:
         CREATOR.delete_key()
         print('API key has now ben deleted')
     except Exception:
-        print('erm i think you were banned, kinda awkward')
+        print('Failed to delete key, you were prob banned/warned')
