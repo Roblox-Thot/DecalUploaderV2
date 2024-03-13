@@ -1,7 +1,7 @@
 from requests import get
 BASED = 'https://www.roblox.com/users/inventory/list-json?assetTypeId=13&cursor=&itemsPerPage=100&pageNumber={}&userId={}'
 
-def get_decals(userId:int, decals:list = None, pageNumber:int = 1, lastLength:int = float('inf')):
+def get_decals(userId:int, decals:list = None, pageNumber:int = 1, lastLength:int = float('inf')) -> list:
     if decals is None:
         decals = []
 

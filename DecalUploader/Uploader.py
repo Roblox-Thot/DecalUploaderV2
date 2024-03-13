@@ -1,19 +1,19 @@
-from rblxopencloud import User, AssetType
+from rblxopencloud import User, AssetType, Asset
 import requests, random, string
 from time import sleep as sleepy
 import xmltodict
 from json import dumps
 
 class DecalClass:
-    def __init__(self, cookie:str, type:AssetType = AssetType.Decal) -> None:
+    def __init__(self, cookie:str, asset_type:AssetType = AssetType.Decal):
         self.cookie = cookie
         self.creator = None
         self.keyId = None
         self.api_key = None
-        self.asset_type = None
+        self.asset_type = asset_type
         self.__get_api_key__()
 
-    def __get_api_key__(self):
+    def __get_api_key__(self) -> None:
         """Creates a API key and sets the self vers required"""
         if self.api_key: return self.api_key
 
@@ -31,7 +31,7 @@ class DecalClass:
         self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'],
                                 self.api_key)
 
-    def delete_key(self):
+    def delete_key(self) -> None:
         """Deletes the API key"""
         headers = {
             "content-type": "application/json",
@@ -40,7 +40,7 @@ class DecalClass:
         
         requests.delete(f'https://apis.roblox.com/cloud-authentication/v1/apiKey/{self.keyId}', headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
 
-    def upload(self, file:bytes, title:str, description:str):
+    def upload(self, file:bytes, title:str, description:str) -> Asset|None:
         """Attempts to upload decal
 
         Args:
@@ -64,7 +64,7 @@ class DecalClass:
             sleepy(0.2)
 
 class Functions:
-    def get_image_id(decal_id):
+    def get_image_id(decal_id:int|str) -> str:
         # sourcery skip: instance-method-first-arg-name
         if not decal_id:
             return "no decal id passed???"

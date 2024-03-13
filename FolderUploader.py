@@ -10,7 +10,7 @@ TITLE:str = CONFIG['title']
 DESCRIPTION:str = CONFIG['description']
 
 class ThreadShit:
-    def upload(creator:DecalClass, filename:str, barrier:threading.Barrier):
+    def upload(creator:DecalClass, filename:str, barrier:threading.Barrier) -> None:
         # sourcery skip: instance-method-first-arg-name
         with open(f'decals/{filename}', "rb") as file:
             barrier.wait()
@@ -35,7 +35,7 @@ class ThreadShit:
                 a.write(f'{clean_filename},{asset.id},{img_id}\n')
         Checker(asset.id, img_id, WEBHOOK)
 
-    def start(files: list, ROBLOSECURITY:str):
+    def start(files: list, ROBLOSECURITY:str) -> None:
         # sourcery skip: instance-method-first-arg-name
         creator = DecalClass(ROBLOSECURITY)
         barrier = threading.Barrier(len(files)+1)
@@ -51,23 +51,22 @@ class ThreadShit:
             thread.join()
 
 class FolderFunctions:
-    def split_list_len(input_list, max_length=60):
+    def split_list_len(input_list:list, max_length:int=60) -> list:
         # sourcery skip: instance-method-first-arg-name
         """
         Split a list into sublists with a maximum length.
         """
         return [input_list[i:i+max_length] for i in range(0, len(input_list), max_length)][:6]
     
-    def split_list_sec(lst, num_sections=6):
+    def split_list_sec(input_list:list, num_sections:int=6) -> list:
         # sourcery skip: instance-method-first-arg-name
-        avg_length = len(lst) // num_sections
-        remainder = len(lst) % num_sections
+        avg_length, remainder = divmod(len(input_list), num_sections)
         sections = []
         start = 0
         for i in range(num_sections):
             length = avg_length + 1 if i < remainder else avg_length
             end = start + length
-            sections.append(lst[start:end])
+            sections.append(input_list[start:end])
             start = end
         return sections
 

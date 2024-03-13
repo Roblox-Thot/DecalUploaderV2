@@ -5,7 +5,7 @@ from rblxopencloud import exceptions
 from time import sleep as sleepy
 import random, io, threading, requests, json
 
-CONFIG = json.load(open('config.json'))
+CONFIG:json = json.load(open('config.json'))
 OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
 STATIC:bool = CONFIG['static'] # Static method
 WEBHOOK:str = CONFIG['webhook']
@@ -25,6 +25,8 @@ class DaThreads:
             except exceptions.RateLimited:
                 sleepy(2)
                 print('rate limit')
+            except Exception:
+                sleepy(2)
 
         if asset:
             img_id = Functions.get_image_id(asset.id)
