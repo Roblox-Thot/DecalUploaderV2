@@ -16,7 +16,7 @@ pip install -r requirements.txt
 4. Config that works for both "modes"
 
 # Known bugs
-* ~~Freezes on ban/warn requiring restart~~ Mostly fixed
+* Freezes on ban/warn requiring restart
 * ~~Frozen for no reason (no fucking clue)~~ Mostly fixed
 * prob more tbh
 

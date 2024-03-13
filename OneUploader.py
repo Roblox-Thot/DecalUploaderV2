@@ -50,7 +50,7 @@ if '__main__' in __name__:
         img = Image.open(io.BytesIO(img_data.content))
     else:
         img = Image.open(image_name)
-    img.thumbnail((400,400))
+    img.thumbnail((420,420))
 
     if OUT:
         clear = input('Clear Out.csv? (Y/N): ')
