@@ -2,7 +2,6 @@ from rblxopencloud import User, AssetType, Asset
 import requests, random, string
 from time import sleep as sleepy
 import xmltodict
-from json import dumps
 
 class DecalClass:
     def __init__(self, cookie:str, asset_type:AssetType = AssetType.Decal):
