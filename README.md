@@ -1,6 +1,5 @@
-<!-- 
 > [!WARNING]\
-> This is still buggy so please don't use this in any projects, Please use [Roblox-Thot/DecalUploader](https://github.com/Roblox-Thot/DecalUploader) for now -->
+> This is still buggy and may break so please don't use this in any projects, Please use [Roblox-Thot/DecalUploader](https://github.com/Roblox-Thot/DecalUploader) for now
 # DecalUploaderV2
 Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
 

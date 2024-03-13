@@ -13,7 +13,7 @@ TITLE:str = CONFIG['title']
 DESCRIPTION:str = CONFIG['description']
 
 class DaThreads:
-    def run(thread_num,creator,barrier,buffer) -> None:
+    def run(thread_num:int, creator:DecalClass, barrier:threading.Barrier, buffer:io.BytesIO) -> None:
         # sourcery skip: instance-method-first-arg-name
 
         barrier.wait()
