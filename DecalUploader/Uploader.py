@@ -1,6 +1,6 @@
 from rblxopencloud import User, AssetType, Asset, exceptions
 import requests, random, string
-from time import sleep as sleepy
+from time import sleep
 import xmltodict
 
 class DecalClass:
@@ -24,7 +24,7 @@ class DecalClass:
         }
 
         response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
-        #print(response)
+
         self.api_key = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
         self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'],
@@ -52,17 +52,17 @@ class DecalClass:
         """
         asset = self.creator.upload_asset(file, self.asset_type, title, description)
 
-        sleepy(5)
+        sleep(5)
 
         while True:
             try:
                 if status:= asset.fetch_operation():
                     return status
-            except exceptions.PermissionDenied | exceptions.InvalidKey:
+            except exceptions.PermissionDenied | exceptions.InvalidKey: #TODO: if invalid key try and check for a ban/warn
                 return None
             except Exception:
-                sleepy(0.5)
-            sleepy(0.2)
+                sleep(0.5)
+            sleep(0.2)
 
 class Functions:
     def get_image_id(decal_id:int|str) -> str:
@@ -79,7 +79,8 @@ class Functions:
             return result_url.split("=")[1]
         except Exception as e:
             print(e)
-            return "failed to get Imgid"
+            sleep(random.randint(0.1,1))
+            return Functions.get_image_id(decal_id)
 
 if __name__ == '__main__':
     input('you don\' run this file')
