@@ -13,7 +13,7 @@ def get_decals(userId:int, decals:list = None, pageNumber:int = 1, lastLength:in
             for decal in result2['Data']['Items']:
                 if decal['Creator']['Id'] == userId and decal['Item']['AssetId'] not in decals:
                     asset_id = decal['Item']['AssetId']
-                    decals.append(id)
+                    decals.append(asset_id)
 
             if len(response.text) != lastLength:
                 lastLength = len(response.text)
