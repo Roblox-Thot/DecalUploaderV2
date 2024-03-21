@@ -1,9 +1,12 @@
 {
     "save decals": true, 
-    "static": false, 
     "webhook": "",
     "title": "RT",
     "description": "DecalUploaderV2",
+
+    "static": true, 
+    "width": 420,
+    "length": 420,
     
     "__comments__":[
         "'save decals' saves decals to Out.csv",

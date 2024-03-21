@@ -2,7 +2,7 @@ from DecalUploader.Uploader import DecalClass, Functions
 from DecalUploader.Checker import Checker
 from PIL import Image
 from rblxopencloud import exceptions
-from time import sleep as sleepy
+from time import sleep, time
 import random, io, threading, requests, json
 
 CONFIG:json = json.load(open('config.json'))
@@ -13,8 +13,8 @@ DESCRIPTION:str = CONFIG['description']
 
 # Image configs
 STATIC:bool = CONFIG['static'] # Static method
-# WIDTH:int = CONFIG['width']
-# LENGTH:int = CONFIG['length']
+WIDTH:int = CONFIG['width']
+LENGTH:int = CONFIG['length']
 
 class DaThreads:
     def run(thread_num:int, creator:DecalClass, barrier:threading.Barrier, buffer:io.BytesIO) -> None:
@@ -27,10 +27,12 @@ class DaThreads:
                 asset = creator.upload(buffer, TITLE, DESCRIPTION)
                 break
             except exceptions.RateLimited:
-                sleepy(2)
+                sleep(2)
                 print('rate limit')
+            except exceptions.PermissionDenied | exceptions.InvalidKey:
+                exit()
             except Exception:
-                sleepy(2)
+                sleep(2)
 
         if asset is not None:
             img_id = Functions.get_image_id(asset.id)
@@ -41,6 +43,7 @@ class DaThreads:
             Checker(asset.id, img_id, WEBHOOK)
 
 if '__main__' in __name__:
+    random.seed(time())
     ROBLOSECURITY = input('Cookie: ')
 
     image_name = input('Image: ').replace('"', '')
@@ -50,7 +53,7 @@ if '__main__' in __name__:
         img = Image.open(io.BytesIO(img_data.content))
     else:
         img = Image.open(image_name)
-    img.thumbnail((420,420))
+    img.thumbnail((WIDTH, LENGTH))
 
     if OUT:
         clear = input('Clear Out.csv? (Y/N): ')
@@ -60,11 +63,11 @@ if '__main__' in __name__:
                 # filename will just be the instance for this for obv reasons
 
     CREATOR = DecalClass(ROBLOSECURITY)
-    threads2make = range(60)
-    barrier = threading.Barrier(len(threads2make)+1)
+    threads_to_make = range(60)
+    barrier = threading.Barrier(len(threads_to_make)+1)
     threads = []
     print('creating images/threads')
-    for a in threads2make:
+    for a in threads_to_make:
         #region making img hashes
         rgba = img.convert("RGBA")
         data = rgba.getdata()
@@ -74,16 +77,10 @@ if '__main__' in __name__:
         for item in data:
             newData.append(item)
 
-        if not STATIC:
-            # Picks random pixel to replace
-            ran = random.randint(0, len(newData))
-            # Sets the color
-            newData[ran]=(
-                random.randint(0,item[0]),
-                random.randint(0,item[1]),
-                random.randint(0,item[2]), item[3])
-
-        else:
+        # match STATIC:
+        #     case _:
+        #         pass
+        if STATIC:
             intensity=20
             newData=[
                 (item[0]+random.randint(-intensity, intensity),
@@ -91,6 +88,14 @@ if '__main__' in __name__:
                 item[2]+random.randint(-intensity, intensity),
                 item[3])for item in data
             ]
+        else:
+            # Picks random pixel to replace
+            ran = random.randint(0, len(newData))
+            # Sets the color
+            newData[ran]=(
+                random.randint(0,item[0]),
+                random.randint(0,item[1]),
+                random.randint(0,item[2]), item[3])
 
         rgba.putdata(newData)
 
