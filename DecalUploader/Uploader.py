@@ -58,7 +58,7 @@ class DecalClass:
             try:
                 if status:= asset.fetch_operation():
                     return status
-            except exceptions.PermissionDenied:
+            except exceptions.PermissionDenied | exceptions.InvalidKey:
                 return None
             except Exception:
                 sleepy(0.5)
