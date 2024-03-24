@@ -1,7 +1,7 @@
 > [!WARNING]\
 > This is still buggy and may break so please don't use this in any projects, Please use [Roblox-Thot/DecalUploader](https://github.com/Roblox-Thot/DecalUploader) for now
 # DecalUploaderV2
-Rewrite of the [Decal Uploader](https://github.com/Roblox-Thot/DecalUploader)
+Rewrite of my other repo [DecalUploader](https://github.com/Roblox-Thot/DecalUploader) but using Roblox's Open Cloud API
 
 Make sure to install the requirements and edit config.json with your wanted data
 
