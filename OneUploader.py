@@ -65,7 +65,7 @@ if '__main__' in __name__:
 
     CREATOR = DecalClass(ROBLOSECURITY)
     threads_to_make = range(60)
-    intensity=50
+    intensity = 20
     barrier = threading.Barrier(len(threads_to_make)+1)
     threads = []
     print('creating images/threads')
