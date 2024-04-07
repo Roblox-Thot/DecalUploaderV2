@@ -4,15 +4,16 @@
     "title": "RT",
     "description": "DecalUploaderV2",
 
-    "static": true, 
+    "method": "static", 
     "width": 420,
     "length": 420,
     
     "__comments__":[
         "'save decals' saves decals to Out.csv",
-        "'static' is used in the OneUploader to add static to images",
         "'webhook' is a Discord webhook to send approved decals to if set",
         "'title' is the title of the decal",
-        "'description' is the description of the decal"
+        "'description' is the description of the decal",
+        
+        "'method' is used in the OneUploader to pick a method. Check the wiki for the method list."
     ]
 }

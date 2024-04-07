@@ -12,7 +12,7 @@ TITLE:str = CONFIG['title']
 DESCRIPTION:str = CONFIG['description']
 
 # Image configs
-STATIC:bool = CONFIG['static'] # Static method
+METHOD:bool = CONFIG['method']
 WIDTH:int = CONFIG['width']
 LENGTH:int = CONFIG['length']
 
@@ -53,7 +53,8 @@ if '__main__' in __name__:
         img = Image.open(io.BytesIO(img_data.content))
     else:
         img = Image.open(image_name)
-    img.thumbnail((WIDTH, LENGTH))
+    # img.thumbnail((WIDTH, LENGTH))
+    img = img.resize((WIDTH, LENGTH))
 
     if OUT:
         clear = input('Clear Out.csv? (Y/N): ')
@@ -69,33 +70,73 @@ if '__main__' in __name__:
     print('creating images/threads')
     for a in threads_to_make:
         #region making img hashes
+        print(f'({a}/{len(threads_to_make)})')
         rgba = img.convert("RGBA")
         data = rgba.getdata()
 
         newData = []
+        intensity=50
 
-        for item in data:
-            newData.append(item)
+        match METHOD.lower():
+            case "alpha":
+                newData = [
+                    (item[0], item[1], item[2], 255-a) for item in data]
 
-        # match STATIC:
-        #     case _:
-        #         pass
-        if STATIC:
-            intensity=100
-            newData=[
-                (item[0]+random.randint(-intensity, intensity),
-                item[1]+random.randint(-intensity, intensity),
-                item[2]+random.randint(-intensity, intensity),
-                item[3])for item in data
-            ]
-        else:
-            # Picks random pixel to replace
-            ran = random.randint(0, len(newData))
-            # Sets the color
-            newData[ran]=(
-                random.randint(0,item[0]),
-                random.randint(0,item[1]),
-                random.randint(0,item[2]), item[3])
+            case "static":
+                newData = [
+                    (
+                        item[0] + random.randint(-intensity, intensity),
+                        item[1] + random.randint(-intensity, intensity),
+                        item[2] + random.randint(-intensity, intensity),
+                        item[3],
+                    )
+                    for item in data
+                ]
+
+            case "tstatic":
+                newData = [
+                    (
+                        item[0],
+                        item[1],
+                        item[2],
+                        item[3] - random.randint(0, intensity),
+                    )
+                    for item in data
+                ]
+
+            case "shadow":
+                newData = [
+                    (
+                        item[0] + random.randint(-1,1),
+                        item[1] + random.randint(-1,1), # Used fo a tiny bit of static
+                        item[2] + random.randint(-1,1),
+                        item[3] - (random.randint(250,255)-round((item[0]+item[1]+item[2])/3)),
+                    )
+                    for item in data
+                ]
+
+            case "light":
+                newData = [
+                    (
+                        item[0] + random.randint(-1,1),
+                        item[1] + random.randint(-1,1), # Used fo a tiny bit of static
+                        item[2] + random.randint(-1,1),
+                        item[3] - (random.randint(250,255)-round(255-(item[0]+item[1]+item[2])/3)),
+                    )
+                    for item in data
+                ]
+
+            case _: # Default to random pixel
+                for item in data:
+                    newData.append(item)
+
+                # Picks random pixel to replace
+                ran = random.randint(0, len(newData))
+                # Sets the color
+                newData[ran]=(
+                    random.randint(0,item[0]),
+                    random.randint(0,item[1]),
+                    random.randint(0,item[2]), item[3])
 
         rgba.putdata(newData)
 
