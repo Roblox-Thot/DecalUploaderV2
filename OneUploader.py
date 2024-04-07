@@ -65,9 +65,11 @@ if '__main__' in __name__:
 
     CREATOR = DecalClass(ROBLOSECURITY)
     threads_to_make = range(60)
+    intensity=50
     barrier = threading.Barrier(len(threads_to_make)+1)
     threads = []
     print('creating images/threads')
+
     for a in threads_to_make:
         #region making img hashes
         print(f'({a}/{len(threads_to_make)})')
@@ -75,8 +77,6 @@ if '__main__' in __name__:
         data = rgba.getdata()
 
         newData = []
-        intensity=50
-
         match METHOD.lower():
             case "alpha":
                 newData = [
@@ -150,14 +150,14 @@ if '__main__' in __name__:
         thread = threading.Thread(target=DaThreads.run, args=(a,CREATOR,barrier,buffer,))
         thread.start()
         threads.append(thread)
-        
+
     barrier.wait()
     print('uploading')
 
     for thread in threads:
         thread.join()
     print('upload finished')
-    
+
     try:
         CREATOR.delete_key()
         print('API key has now ben deleted')
