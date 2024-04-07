@@ -11,17 +11,18 @@ pip install -r requirements.txt
 
 # Feetures
 1. Can upload around 60 decals at once
-2. Multiple "modes"
+2. [Multiple "methods"](https://github.com/Roblox-Thot/DecalUploaderV2/wiki/Methods)
 3. Checker to Discord webhook
 4. Config that works for both "modes"
 
 # Known bugs
 * Freezes on ban/warn requiring restart
+* Lots of error when banned sometimes :kek:
 * ~~Frozen for no reason (no fucking clue)~~ Mostly fixed
 * prob more tbh
 
 ## OneUploader.py
-Uploads one file multiple times
+Uploads one file multiple times using the method put in the config.json
 
 ## FolderUploader.py
 Uploads the `decals` folder
