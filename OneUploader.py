@@ -80,7 +80,13 @@ if '__main__' in __name__:
         match METHOD.lower():
             case "alpha":
                 newData = [
-                    (item[0], item[1], item[2], 255-a) for item in data]
+                    (
+                        item[0] + random.randint(-1,1),
+                        item[1] + random.randint(-1,1), # Used fo a tiny bit of static so that you can use this more than once
+                        item[2] + random.randint(-1,1),
+                        255-a
+                    ) for item in data
+                ]
 
             case "static":
                 newData = [
