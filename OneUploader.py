@@ -126,17 +126,16 @@ if '__main__' in __name__:
                     for item in data
                 ]
 
-            case _: # Default to random pixel
-                for item in data:
-                    newData.append(item)
-
-                # Picks random pixel to replace
+            case "default":
+                for item in data: newData.append(item)
                 ran = random.randint(0, len(newData))
-                # Sets the color
-                newData[ran]=(
-                    random.randint(0,item[0]),
-                    random.randint(0,item[1]),
-                    random.randint(0,item[2]), item[3])
+                newData[ran]=(random.randint(0,item[0]),random.randint(0,item[1]),random.randint(0,item[2]), item[3])
+
+            case _: # Default to random pixel
+                print('INVALID METHOD SET, DEFAULTING TO RANDOM COLOR (default) METHOD')
+                for item in data: newData.append(item)
+                ran = random.randint(0, len(newData))
+                newData[ran]=(random.randint(0,item[0]),random.randint(0,item[1]),random.randint(0,item[2]), item[3])
 
         rgba.putdata(newData)
 
