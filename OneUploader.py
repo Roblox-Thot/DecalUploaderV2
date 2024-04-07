@@ -81,9 +81,9 @@ if '__main__' in __name__:
             case "alpha":
                 newData = [
                     (
-                        item[0] + random.randint(-1,1),
-                        item[1] + random.randint(-1,1), # Used fo a tiny bit of static so that you can use this more than once
-                        item[2] + random.randint(-1,1),
+                        item[0] + random.randint(-2,2),
+                        item[1] + random.randint(-2,2), # Used fo a tiny bit of static so that you can use this more than once
+                        item[2] + random.randint(-2,2),
                         255-a
                     ) for item in data
                 ]
