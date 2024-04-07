@@ -56,9 +56,9 @@ class DecalClass:
 
         while True:
             try:
-                if status:= asset.fetch_operation():
+                if status := asset.fetch_operation():
                     return status
-            except exceptions.PermissionDenied | exceptions.InvalidKey: #TODO: if invalid key try and check for a ban/warn
+            except exceptions.InvalidKey: #TODO: if invalid key try and check for a ban/warn
                 return None
             except Exception:
                 sleep(0.5)

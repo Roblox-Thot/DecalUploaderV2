@@ -36,7 +36,7 @@ class DaThreads:
 
         if asset is not None:
             img_id = Functions.get_image_id(asset.id)
-            print(f'{asset.id=} {img_id=}')
+            # print(f'{asset.id=} {img_id=}')
             if OUT:
                 with open('Out.csv','a') as f:
                     f.write(f'#{thread_num},{asset.id},{img_id}\n')
@@ -81,7 +81,7 @@ if '__main__' in __name__:
         #     case _:
         #         pass
         if STATIC:
-            intensity=20
+            intensity=100
             newData=[
                 (item[0]+random.randint(-intensity, intensity),
                 item[1]+random.randint(-intensity, intensity),

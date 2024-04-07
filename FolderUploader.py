@@ -29,10 +29,10 @@ class ThreadShit:
         
         if asset is not None:
             img_id = Functions.get_image_id(asset.id)
-            #img_id = 'temp off'
+            # img_id = 'temp off'
             clean_filename = re.sub(r'[^\x00-\x7F]+','#',filename) # no emojis
             clean_filename = clean_filename.replace(',',' ') # no comma
-            print(f'{filename} {asset.id=} {img_id=}')
+            # print(f'{filename} {asset.id=} {img_id=}')
             if OUT:
                 with open('Out.csv', 'a') as a:
                     a.write(f'{clean_filename},{asset.id},{img_id}\n')
