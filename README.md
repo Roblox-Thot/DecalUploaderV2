@@ -33,3 +33,6 @@ Uploads the `decals` folder
 ## Snowcase
 https://github.com/Roblox-Thot/DecalUploaderV2/assets/67937010/0ea39f35-0c57-4b6b-b11e-c240483edcd2
 
+<!--
+this sucks at times tbf
+-->
