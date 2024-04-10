@@ -7,6 +7,7 @@
     "method": "static", 
     "width": 420,
     "length": 420,
+    "intensity":20,
     
     "__comments__":[
         "'save decals' saves decals to Out.csv",
@@ -14,6 +15,7 @@
         "'title' is the title of the decal",
         "'description' is the description of the decal",
         
-        "'method' is used in the OneUploader to pick a method. Check the wiki for the method list."
+        "'method' is used in the OneUploader to pick a method. Check the wiki for the method list.",
+        "'intensity' is used for some methods, most go from 0-255 but higher are worse."
     ]
 }
