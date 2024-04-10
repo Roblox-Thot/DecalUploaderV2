@@ -132,7 +132,7 @@ if '__main__' in __name__:
                     for item in data
                 ]
 
-            case "default":
+            case "default": # Sets a random pixel
                 for item in data: newData.append(item)
                 ran = random.randint(0, len(newData))
                 newData[ran]=(random.randint(0,item[0]),random.randint(0,item[1]),random.randint(0,item[2]), item[3])
