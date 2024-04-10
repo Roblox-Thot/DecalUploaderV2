@@ -53,8 +53,11 @@ if '__main__' in __name__:
         img = Image.open(io.BytesIO(img_data.content))
     else:
         img = Image.open(image_name)
-    # img.thumbnail((WIDTH, LENGTH))
-    img = img.resize((WIDTH, LENGTH))
+    
+    if CONFIG['resize']:
+        img = img.resize((WIDTH, LENGTH))
+    else:
+        img.thumbnail((WIDTH, LENGTH))
 
     if OUT:
         clear = input('Clear Out.csv? (Y/N): ')
