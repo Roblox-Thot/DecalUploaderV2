@@ -1,6 +1,6 @@
 from DecalUploader.Uploader import DecalClass, Functions
 from DecalUploader.Checker import Checker
-from PIL import Image
+from PIL import Image, ImageFilter
 from rblxopencloud import exceptions
 from time import sleep, time
 import random, io, threading, requests, json
@@ -118,9 +118,9 @@ if '__main__' in __name__:
             case "shadow":
                 newData = [
                     (
-                        item[0] + random.randint(-1,1),
-                        item[1] + random.randint(-1,1), # Used fo a tiny bit of static
-                        item[2] + random.randint(-1,1),
+                        item[0] + random.randint(-intensity,intensity),
+                        item[1] + random.randint(-intensity,intensity), # Used fo a tiny bit of static
+                        item[2] + random.randint(-intensity,intensity),
                         item[3] - (random.randint(250,255)-round((item[0]+item[1]+item[2])/3)),
                     )
                     for item in data
@@ -129,9 +129,9 @@ if '__main__' in __name__:
             case "light":
                 newData = [
                     (
-                        item[0] + random.randint(-1,1),
-                        item[1] + random.randint(-1,1), # Used fo a tiny bit of static
-                        item[2] + random.randint(-1,1),
+                        item[0] + random.randint(-intensity,intensity),
+                        item[1] + random.randint(-intensity,intensity), # Used fo a tiny bit of static
+                        item[2] + random.randint(-intensity,intensity),
                         item[3] - (random.randint(250,255)-round(255-(item[0]+item[1]+item[2])/3)),
                     )
                     for item in data
