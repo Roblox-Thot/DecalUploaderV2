@@ -29,7 +29,9 @@ class DaThreads:
             except exceptions.RateLimited:
                 sleep(2)
                 print('rate limit')
-            except exceptions.PermissionDenied | exceptions.InvalidKey:
+            except exceptions.PermissionDenied: # Banned
+                exit()
+            except exceptions.InvalidKey: # Banned/key was deleted somehow
                 exit()
             except Exception:
                 sleep(2)
@@ -77,7 +79,7 @@ if '__main__' in __name__:
 
     for a in threads_to_make:
         #region making img hashes
-        print(f'({a+1}/{len(threads_to_make)})')
+        print(f'({a+1}/{len(threads_to_make)})',end='\r')
         rgba = img.convert("RGBA")
         data = rgba.getdata()
 
@@ -94,15 +96,26 @@ if '__main__' in __name__:
                 ]
 
             case "static":
-                newData = [
-                    (
-                        item[0] + random.randint(-intensity, intensity),
-                        item[1] + random.randint(-intensity, intensity),
-                        item[2] + random.randint(-intensity, intensity),
-                        item[3],
-                    )
-                    for item in data
-                ]
+                # newData = [
+                #     (
+                #         item[0] + random.randint(-intensity, intensity),
+                #         item[1] + random.randint(-intensity, intensity),
+                #         item[2] + random.randint(-intensity, intensity),
+                #         item[3],
+                #     )
+                #     for item in data
+                # ]
+                square_size = 2
+                width, height = img.size
+                static_image = Image.new('RGB', (width, height))
+                
+                for x in range(0, width, square_size):
+                    for y in range(0, height, square_size):
+                        static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+                        static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
+
+                data = Image.blend(img, static_image, 0.5)
+                newData = data.getdata()
 
             case "tstatic":
                 newData = [
