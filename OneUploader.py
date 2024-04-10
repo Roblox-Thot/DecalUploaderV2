@@ -47,7 +47,9 @@ if '__main__' in __name__:
     ROBLOSECURITY = input('Cookie: ')
 
     image_name = input('Image: ').replace('"', '')
+
     if image_name.lower().startswith('http'):
+        # Get image from URL if given a URL
         img_data = requests.get(image_name)
         if img_data.status_code != 200: print('failed to get img'); exit()
         img = Image.open(io.BytesIO(img_data.content))
@@ -55,9 +57,9 @@ if '__main__' in __name__:
         img = Image.open(image_name)
     
     if CONFIG['resize']:
-        img = img.resize((WIDTH, LENGTH))
+        img = img.resize((WIDTH, LENGTH)) # Sets size exactly
     else:
-        img.thumbnail((WIDTH, LENGTH))
+        img.thumbnail((WIDTH, LENGTH)) # Fits into the size
 
     if OUT:
         clear = input('Clear Out.csv? (Y/N): ')
@@ -75,7 +77,7 @@ if '__main__' in __name__:
 
     for a in threads_to_make:
         #region making img hashes
-        print(f'({a}/{len(threads_to_make)})')
+        print(f'({a+1}/{len(threads_to_make)})')
         rgba = img.convert("RGBA")
         data = rgba.getdata()
 
@@ -84,9 +86,9 @@ if '__main__' in __name__:
             case "alpha":
                 newData = [
                     (
-                        item[0] + random.randint(-2,2),
-                        item[1] + random.randint(-2,2), # Used fo a tiny bit of static so that you can use this more than once
-                        item[2] + random.randint(-2,2),
+                        item[0] + random.randint(-intensity,intensity),
+                        item[1] + random.randint(-intensity,intensity), # Used fo a tiny bit of static so that you can use this more than once
+                        item[2] + random.randint(-intensity,intensity),
                         255-a
                     ) for item in data
                 ]
@@ -135,7 +137,7 @@ if '__main__' in __name__:
                     for item in data
                 ]
 
-            case "default": # Sets a random pixel
+            case "default": #   Sets a random pixel
                 for item in data: newData.append(item)
                 ran = random.randint(0, len(newData))
                 newData[ran]=(random.randint(0,item[0]),random.randint(0,item[1]),random.randint(0,item[2]), item[3])
@@ -145,7 +147,7 @@ if '__main__' in __name__:
                 for item in data: newData.append(item)
                 ran = random.randint(0, len(newData))
                 newData[ran]=(random.randint(0,item[0]),random.randint(0,item[1]),random.randint(0,item[2]), item[3])
-
+        
         rgba.putdata(newData)
 
         buffer = io.BytesIO()
