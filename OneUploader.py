@@ -44,6 +44,7 @@ class DaThreads:
                     f.write(f'#{thread_num},{asset.id},{img_id}\n')
             Checker(asset.id, img_id, WEBHOOK)
 
+# sourcery skip: use-itertools-product
 if '__main__' in __name__:
     random.seed(time())
     ROBLOSECURITY = input('Cookie: ')
@@ -95,7 +96,7 @@ if '__main__' in __name__:
                     ) for item in data
                 ]
 
-            case "static":
+            case "static": # WIP new method
                 # newData = [
                 #     (
                 #         item[0] + random.randint(-intensity, intensity),
@@ -105,7 +106,7 @@ if '__main__' in __name__:
                 #     )
                 #     for item in data
                 # ]
-                square_size = 2
+                square_size = 3
                 width, height = img.size
                 static_image = Image.new('RGB', (width, height))
                 
@@ -114,7 +115,7 @@ if '__main__' in __name__:
                         static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
                         static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
 
-                data = Image.blend(img, static_image, 0.5)
+                data = Image.blend(img, static_image, 0.4)
                 newData = data.getdata()
 
             case "tstatic":
@@ -149,6 +150,23 @@ if '__main__' in __name__:
                     )
                     for item in data
                 ]
+
+            case "test": # WIP filter method
+                def rand(): return random.randint(-50, 50)
+                image = rgba
+                width, height = image.size
+                for y in range(height):
+                    for x in range(width):
+                        r, g, b, a = image.getpixel((x, y))
+                        r+=rand();g+=rand();b+=rand()
+                        if y % 2 == 0: b = 0
+                        if y % 3 == 0 or x % 3 == 0: a = 0
+                        if x % 2 != 0:
+                            image.putpixel((x, y), (0,g,b,a))
+                        else:
+                            image.putpixel((x, y), (r,0,b,a))
+                newData = image.getdata()
+                # rgba.show("owo")
 
             case "default": #   Sets a random pixel
                 for item in data: newData.append(item)
