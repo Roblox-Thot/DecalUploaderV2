@@ -1,6 +1,9 @@
 > [!WARNING]  
 > Roblox has been cracking down on decals a lot harder recently so the OneUploader.py may not work as well as it used to, I'm currently working on trying to find a new way.
 
+> [!CAUTION]  
+> Roblox has removed some APIs which may break this, I will look into it at a later date.
+
 # DecalUploaderV2
 Rewrite of my other repo [DecalUploader](https://github.com/Roblox-Thot/DecalUploader) but using Roblox's Open Cloud API
 
