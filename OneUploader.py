@@ -119,10 +119,10 @@ if '__main__' in __name__:
                 
                 for x in range(0, width, square_size):
                     for y in range(0, height, square_size):
-                        static_color = (random.randint(0, intensity), random.randint(0, intensity), random.randint(0, intensity))
+                        static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
                         static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
 
-                data = Image.blend(rgba, static_image, 0.6)
+                data = Image.blend(rgba, static_image, 255/intensity)
                 newData = data.getdata()
 
             case "tstatic":
