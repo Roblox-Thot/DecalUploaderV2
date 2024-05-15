@@ -114,15 +114,15 @@ if '__main__' in __name__:
                 #     for item in data
                 # ]
                 square_size = 3
-                width, height = img.size
-                static_image = Image.new('RGB', (width, height))
+                width, height = rgba.size
+                static_image = Image.new('RGBA', (width, height))
                 
                 for x in range(0, width, square_size):
                     for y in range(0, height, square_size):
                         static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
                         static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
 
-                data = Image.blend(img, static_image, 0.6)
+                data = Image.blend(rgba, static_image, 0.6)
                 newData = data.getdata()
 
             case "tstatic":

@@ -5,10 +5,10 @@
     "description": "DecalUploaderV2",
 
     "method": "static", 
-    "resize": false,
+    "resize": true,
     "width": 420,
     "length": 420,
-    "intensity":20,
+    "intensity":50,
     
     "__comments__":[
         "'save decals' saves decals to Out.csv",
