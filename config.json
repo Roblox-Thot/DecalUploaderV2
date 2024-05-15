@@ -8,7 +8,7 @@
     "resize": true,
     "width": 420,
     "length": 420,
-    "intensity":50,
+    "intensity":10,
     
     "__comments__":[
         "'save decals' saves decals to Out.csv",
@@ -18,6 +18,6 @@
         
         "'method' is used in the OneUploader to pick a method. Check the wiki for the method list.",
         "If 'resize' is true then it will be exactly the W+L if false it will scale it down to fit in the W+L",
-        "'intensity' is used for some methods, most go from 0-255 but higher are worse."
+        "'intensity' is used for some methods, most go from 0-255 but higher is normaly worse."
     ]
 }
