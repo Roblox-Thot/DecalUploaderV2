@@ -1,9 +1,9 @@
 from DecalUploader.Uploader import DecalClass, Functions
 from DecalUploader.Checker import Checker
-from PIL import Image, ImageFilter
+from PIL import Image
 from rblxopencloud import exceptions
 from time import sleep, time
-import random, io, threading, requests, json
+import random, io, threading, requests, json,string
 
 CONFIG:json = json.load(open('config.json'))
 OUT:bool = CONFIG['save decals'] # Save decals/imgs to out.csv
@@ -20,11 +20,14 @@ class DaThreads:
     def run(thread_num:int, creator:DecalClass, barrier:threading.Barrier, buffer:io.BytesIO) -> None:
         # sourcery skip: instance-method-first-arg-name
 
+        # TODO: Add random to config
+        # list_thingy = string.ascii_letters+string.digits
+        # title,description =random.choice(list_thingy),random.choice(list_thingy)
         barrier.wait()
 
         while True: # keep uploading till one works :)
             try:
-                asset = creator.upload(buffer, TITLE, DESCRIPTION)
+                asset = creator.upload(buffer, TITLE,DESCRIPTION)
                 break
             except exceptions.RateLimited:
                 sleep(2)
@@ -82,9 +85,13 @@ if '__main__' in __name__:
         #region making img hashes
         print(f'({a+1}/{len(threads_to_make)})',end='\r')
         rgba = img.convert("RGBA")
+        # TODO: add to config
+        #if random.randint(0,1) == 1: rgba.transpose(Image.FLIP_LEFT_RIGHT)
         data = rgba.getdata()
 
         newData = []
+        #METHOD = random.choice(["alpha","static","tstatic","shadow","light","test","test2"])
+        #print(METHOD)
         match METHOD.lower():
             case "alpha":
                 newData = [
@@ -115,7 +122,7 @@ if '__main__' in __name__:
                         static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
                         static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
 
-                data = Image.blend(img, static_image, 0.4)
+                data = Image.blend(img, static_image, 0.6)
                 newData = data.getdata()
 
             case "tstatic":
@@ -167,6 +174,30 @@ if '__main__' in __name__:
                             image.putpixel((x, y), (r,0,b,a))
                 newData = image.getdata()
                 # rgba.show("owo")
+
+            case "test2": # WIP filter method
+                def rand(): return random.randint(-50, 50)
+                image = rgba
+                width, height = image.size
+                count = 0
+                for y in range(height):
+                    for x in range(width):
+                        r, g, b, a = image.getpixel((x, y))
+                        r+=rand();g+=rand();b+=rand()
+                        count+=1
+                        if count == 1:
+                            g,b = 0,0
+                        elif count == 2:
+                            r,b = 0,0
+                        elif count == 3:
+                            r,g = 0,0
+                        else:
+                            r,g,b=0,0,0
+                            count=0
+                            
+                        if y % 4 == 0 or x % 4 == 0: a = round((r+g+b)/3)
+                        image.putpixel((x, y), (r,g,b,a))
+                newData = image.getdata()
 
             case "default": #   Sets a random pixel
                 for item in data: newData.append(item)

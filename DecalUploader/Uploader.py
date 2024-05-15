@@ -24,8 +24,18 @@ class DecalClass:
             "X-Csrf-Token": requests.post('https://auth.roblox.com/v1/login', cookies={'.ROBLOSECURITY': self.cookie}).headers['x-csrf-token']
         }
 
-        response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
+        response = requests.post("https://apis.roblox.com/cloud-authentication/v1/apiKey", json=payload, headers=headers, cookies={'.ROBLOSECURITY': self.cookie})
 
+        if 'Re-activate My Account' in response.text:
+            attempt = requests.post("https://usermoderation.roblox.com/v1/not-approved/reactivate", headers= headers)
+            if attempt.status_code != 200:
+                raise SystemExit("Banned/failed to reactivate")
+
+            print("The account has been reactivated")
+            self.__get_api_key__()
+            return ""
+
+        response = response.json()
         self.api_key = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
         self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'],
