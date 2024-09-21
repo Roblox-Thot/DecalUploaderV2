@@ -10,17 +10,22 @@ Make sure to install the requirements and edit config.json with your wanted data
 pip install -r requirements.txt
 ```
 
-# Feetures
+# **Feet**ures
 1. Can upload around 60 decals at once
 2. [Multiple "methods"](https://github.com/Roblox-Thot/DecalUploaderV2/wiki/Methods)
 3. Checker to Discord webhook
 4. Config that works for both "modes"
 
+# Todo
+- [ ] Add other upload types (shirts?)
+- [ ] Add error checks for banned accounts
+- [ ] MORE **METH**OD
+- [ ] Fix bugs listed below
+
 # Known bugs
 * Freezes on ban/warn requiring restart
 * Lots of error when banned sometimes :kek:
 * ~~Frozen for no reason (no fucking clue)~~ Mostly fixed
-* prob more tbh
 
 ## OneUploader.py
 Uploads one file multiple times using the method put in the config.json
