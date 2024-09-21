@@ -38,7 +38,7 @@ class DecalClass:
         response = response.json()
         self.api_key = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
-        self.creator = User(requests.get('https://www.roblox.com/mobileapi/userinfo',cookies={'.ROBLOSECURITY':self.cookie}).json()['UserID'],
+        self.creator = User(requests.get('https://users.roblox.com/v1/users/authenticated',cookies={'.ROBLOSECURITY':self.cookie}).json()['id'],
                                 self.api_key)
 
     def delete_key(self) -> None:
