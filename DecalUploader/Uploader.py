@@ -52,7 +52,14 @@ class DecalClass:
             "X-Csrf-Token": requests.post('https://auth.roblox.com/v1/login', cookies={'.ROBLOSECURITY': self.cookie}).headers['x-csrf-token']
         }
         
-        requests.delete(f'https://apis.roblox.com/cloud-authentication/v1/apiKey/{self.keyId}', headers=headers, cookies={'.ROBLOSECURITY': self.cookie}).json()
+        response = requests.delete(f'https://apis.roblox.com/cloud-authentication/v1/apiKey/{self.keyId}', headers=headers, cookies={'.ROBLOSECURITY': self.cookie})
+        
+        if 'Re-activate My Account' in response.text:
+            attempt = requests.post("https://usermoderation.roblox.com/v1/not-approved/reactivate", headers= headers)
+            if attempt.status_code != 200:
+                raise SystemExit("Banned/failed to reactivate")
+
+            self.delete_key()
 
     def upload(self, file:bytes, title:str, description:str) -> Asset|None:
         """Attempts to upload decal
