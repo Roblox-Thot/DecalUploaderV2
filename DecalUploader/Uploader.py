@@ -37,6 +37,7 @@ class DecalClass:
 
         response = response.json()
         if 'apikeySecret' not in response:
+            print("There was an error getting the API key. Please open an issue or DM Roblox_Thot this message bellow.\n\n")
             print(response)
             exit()
         self.api_key = response['apikeySecret']
