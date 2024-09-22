@@ -92,13 +92,14 @@ if '__main__' in __name__:
         newData = []
         #METHOD = random.choice(["alpha","static","tstatic","shadow","light","test","test2"])
         #print(METHOD)
+        def rand(): return random.randint(-intensity,intensity)
         match METHOD.lower():
             case "alpha":
                 newData = [
                     (
-                        item[0] + random.randint(-intensity,intensity),
-                        item[1] + random.randint(-intensity,intensity), # Used fo a tiny bit of static so that you can use this more than once
-                        item[2] + random.randint(-intensity,intensity),
+                        item[0] + rand(),
+                        item[1] + rand(), # Used fo a tiny bit of static so that you can use this more than once
+                        item[2] + rand(),
                         255-a
                     ) for item in data
                 ]
@@ -139,9 +140,9 @@ if '__main__' in __name__:
             case "shadow":
                 newData = [
                     (
-                        item[0] + random.randint(-intensity,intensity),
-                        item[1] + random.randint(-intensity,intensity), # Used fo a tiny bit of static
-                        item[2] + random.randint(-intensity,intensity),
+                        item[0] + rand(),
+                        item[1] + rand(), # Used fo a tiny bit of static
+                        item[2] + rand(),
                         item[3] - (random.randint(250,255)-round((item[0]+item[1]+item[2])/3)),
                     )
                     for item in data
@@ -150,16 +151,15 @@ if '__main__' in __name__:
             case "light":
                 newData = [
                     (
-                        item[0] + random.randint(-intensity,intensity),
-                        item[1] + random.randint(-intensity,intensity), # Used fo a tiny bit of static
-                        item[2] + random.randint(-intensity,intensity),
+                        item[0] + rand(),
+                        item[1] + rand(), # Used fo a tiny bit of static
+                        item[2] + rand(),
                         item[3] - (random.randint(250,255)-round(255-(item[0]+item[1]+item[2])/3)),
                     )
                     for item in data
                 ]
 
             case "test": # WIP filter method
-                def rand(): return random.randint(-50, 50)
                 image = rgba
                 width, height = image.size
                 for y in range(height):
@@ -176,7 +176,6 @@ if '__main__' in __name__:
                 # rgba.show("owo")
 
             case "test2": # WIP filter method
-                def rand(): return random.randint(-50, 50)
                 image = rgba
                 width, height = image.size
                 count = 0
