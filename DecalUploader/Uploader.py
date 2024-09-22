@@ -36,6 +36,9 @@ class DecalClass:
             return ""
 
         response = response.json()
+        if 'apikeySecret' not in response:
+            print(response)
+            exit()
         self.api_key = response['apikeySecret']
         self.keyId = response['cloudAuthInfo']['id']
         self.creator = User(requests.get('https://users.roblox.com/v1/users/authenticated',cookies={'.ROBLOSECURITY':self.cookie}).json()['id'],
