@@ -85,14 +85,14 @@ def do_method(METHOD:str,rgba,iteration:int=1,intensity:int=50):  # sourcery ski
             width, height = image.size
             for y in range(height):
                 for x in range(width):
-                    r, g, b, iteration = image.getpixel((x, y))
+                    r, g, b, a = image.getpixel((x, y))
                     r+=rand();g+=rand();b+=rand()
                     if y % 2 == 0: b = 0
-                    if y % 3 == 0 or x % 3 == 0: iteration = 0
+                    if y % 3 == 0 or x % 3 == 0: a = 0
                     if x % 2 != 0:
-                        image.putpixel((x, y), (0,g,b,iteration))
+                        image.putpixel((x, y), (0,g,b,a))
                     else:
-                        image.putpixel((x, y), (r,0,b,iteration))
+                        image.putpixel((x, y), (r,0,b,a))
             newData = image.getdata()
 
         case "test2": # WIP filter method
@@ -101,7 +101,7 @@ def do_method(METHOD:str,rgba,iteration:int=1,intensity:int=50):  # sourcery ski
             count = 0
             for y in range(height):
                 for x in range(width):
-                    r, g, b, iteration = image.getpixel((x, y))
+                    r, g, b, a = image.getpixel((x, y))
                     r+=rand();g+=rand();b+=rand()
                     count+=1
                     if count == 1:
@@ -114,8 +114,8 @@ def do_method(METHOD:str,rgba,iteration:int=1,intensity:int=50):  # sourcery ski
                         r,g,b=0,0,0
                         count=0
                         
-                    if y % 4 == 0 or x % 4 == 0: iteration = round((r+g+b)/3)
-                    image.putpixel((x, y), (r,g,b,iteration))
+                    if y % 4 == 0 or x % 4 == 0: a = round((r+g+b)/3)
+                    image.putpixel((x, y), (r,g,b,a))
             newData = image.getdata()
 
         case "default": #   Sets a random pixel
