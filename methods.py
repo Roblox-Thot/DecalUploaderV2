@@ -8,9 +8,11 @@ def setupRand(intensity):
     return randy
 
 #TODO: think about moving each method into a function to clean up
-def do_method(METHOD:str,intensity:int,rgba):  # sourcery skip: extract-duplicate-method, low-code-quality, use-itertools-product
+def do_method(METHOD:str,rgba,iteration:int=1,intensity:int=50):  # sourcery skip: extract-duplicate-method, low-code-quality, use-itertools-product
     newData = []
+    if intensity==0: intensity=1 # prevents problems later on
     rand = setupRand(intensity)
+    data = rgba.getdata()
     match METHOD.lower():
         case "alpha":
             newData = [
@@ -18,31 +20,32 @@ def do_method(METHOD:str,intensity:int,rgba):  # sourcery skip: extract-duplicat
                     item[0] + rand(),
                     item[1] + rand(), # Used fo a tiny bit of static so that you can use this more than once
                     item[2] + rand(),
-                    255-a
+                    255-iteration
                 ) for item in data
             ]
 
-        case "static": # WIP new method
-            # newData = [
-            #     (
-            #         item[0] + random.randint(-intensity, intensity),
-            #         item[1] + random.randint(-intensity, intensity),
-            #         item[2] + random.randint(-intensity, intensity),
-            #         item[3],
-            #     )
-            #     for item in data
-            # ]
-            square_size = 3
-            width, height = rgba.size
-            static_image = Image.new('RGBA', (width, height))
+        case "static":
+            newData = [
+                (
+                    item[0] + random.randint(-intensity, intensity),
+                    item[1] + random.randint(-intensity, intensity),
+                    item[2] + random.randint(-intensity, intensity),
+                    item[3],
+                )
+                for item in data
+            ]
+            # WIP new method (has issues i need to figure out)
+            # square_size = 3
+            # width, height = rgba.size
+            # static_image = Image.new('RGBA', (width, height))
             
-            for x in range(0, width, square_size):
-                for y in range(0, height, square_size):
-                    static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-                    static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
+            # for x in range(0, width, square_size):
+            #     for y in range(0, height, square_size):
+            #         static_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            #         static_image.paste(static_color, (x, y, min(x + square_size, width), min(y + square_size, height)))
 
-            data = Image.blend(rgba, static_image, 255/intensity)
-            newData = data.getdata()
+            # data = Image.blend(static_image, rgba, 255/intensity)
+            # newData = data.getdata()
 
         case "tstatic":
             newData = [
@@ -82,14 +85,14 @@ def do_method(METHOD:str,intensity:int,rgba):  # sourcery skip: extract-duplicat
             width, height = image.size
             for y in range(height):
                 for x in range(width):
-                    r, g, b, a = image.getpixel((x, y))
+                    r, g, b, iteration = image.getpixel((x, y))
                     r+=rand();g+=rand();b+=rand()
                     if y % 2 == 0: b = 0
-                    if y % 3 == 0 or x % 3 == 0: a = 0
+                    if y % 3 == 0 or x % 3 == 0: iteration = 0
                     if x % 2 != 0:
-                        image.putpixel((x, y), (0,g,b,a))
+                        image.putpixel((x, y), (0,g,b,iteration))
                     else:
-                        image.putpixel((x, y), (r,0,b,a))
+                        image.putpixel((x, y), (r,0,b,iteration))
             newData = image.getdata()
 
         case "test2": # WIP filter method
@@ -98,7 +101,7 @@ def do_method(METHOD:str,intensity:int,rgba):  # sourcery skip: extract-duplicat
             count = 0
             for y in range(height):
                 for x in range(width):
-                    r, g, b, a = image.getpixel((x, y))
+                    r, g, b, iteration = image.getpixel((x, y))
                     r+=rand();g+=rand();b+=rand()
                     count+=1
                     if count == 1:
@@ -111,8 +114,8 @@ def do_method(METHOD:str,intensity:int,rgba):  # sourcery skip: extract-duplicat
                         r,g,b=0,0,0
                         count=0
                         
-                    if y % 4 == 0 or x % 4 == 0: a = round((r+g+b)/3)
-                    image.putpixel((x, y), (r,g,b,a))
+                    if y % 4 == 0 or x % 4 == 0: iteration = round((r+g+b)/3)
+                    image.putpixel((x, y), (r,g,b,iteration))
             newData = image.getdata()
 
         case "default": #   Sets a random pixel

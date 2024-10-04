@@ -88,12 +88,10 @@ if '__main__' in __name__:
         rgba = img.convert("RGBA")
         # TODO: add to config
         #if random.randint(0,1) == 1: rgba.transpose(Image.FLIP_LEFT_RIGHT)
-        data = rgba.getdata()
 
         #METHOD = random.choice(["alpha","static","tstatic","shadow","light","test","test2"])
         #print(METHOD)
-        def rand(): return random.randint(-intensity,intensity)
-        newData = do_method(METHOD,intensity,rgba)
+        newData = do_method(METHOD,rgba,a,intensity)
         
         rgba.putdata(newData)
 
