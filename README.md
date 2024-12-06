@@ -20,8 +20,6 @@ pip install -r requirements.txt
 4. Config that works for both "modes"
 
 # Todo
-- [ ] Make a UI to allow testing methods and uploading quicker
-- [ ] Add other upload types (shirts?)
 - [ ] Add error checks for banned accounts
 - [ ] MORE **METH**OD
 - [ ] Fix bugs listed below
